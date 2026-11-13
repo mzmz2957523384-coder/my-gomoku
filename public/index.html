@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>双人实时五子棋</title>
+  <style>
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f4f1ea;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 16px 10px;
+      touch-action: manipulation;
+    }
+    h1 { margin: 4px 0 12px; font-size: 22px; color: #2c2c2c; }
+
+    /* 大厅卡片 */
+    #lobby {
+      background: #fff;
+      padding: 24px 20px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      width: 100%;
+      max-width: 360px;
+      text-align: center;
+      margin-top: 30px;
+    }
+    #lobby input {
+      width: 100%;
+      padding: 12px;
+      font-size: 18px;
+      text-align: center;
+      border: 2px solid #ddd;
+      border-radius: 10px;
+      margin: 12px 0;
+      outline: none;
+    }
+    #lobby input:focus { border-color: #4a7c59; }
+
+    button {
+      border: none;
+      border-radius: 10px;
+      padding: 12px 20px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    button:active { opacity: 0.75; }
+    .btn-primary { background: #4a7c59; color: #fff; width: 100%; }
+    .btn-secondary { background: #e8e4dc; color: #333; margin-top: 10px; width: 100%; font-size: 14px; padding: 10px; }
+
+    /* 对战区 */
+    #game { display: none; flex-direction: column; align-items: center; width: 100%; max-width: 500px; }
+    .info-bar {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fff;
+      padding: 10px 14px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+    .status-banner {
+      width: 100%;
+      text-align: center;
+      padding: 10px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 16px;
+      margin-bottom: 10px;
+      background: #e9e4d9;
+    }
+    .status-my-turn { background: #d4edda; color: #155724; }
+    .status-win { background: #fff3cd; color: #856404; }
+
+    canvas {
+      border-radius: 8px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+      background: #e3b778;
+      touch-action: none;
+    }
+
+    .controls {
+      width: 100%;
+      margin-top: 14px;
+      display: flex;
+      gap: 10px;
+    }
+    #confirmBtn {
+      flex: 2;
+      background: #2e7d32;
+      color: #fff;
+      font-size: 17px;
+      display: none;
+    }
+    #restartBtn {
+      flex: 1;
+      background: #d97706;
+      color: #fff;
+      display: none;
+    }
+    #shareBtn {
+      flex: 1;
+      background: #3b82f6;
+      color: #fff;
+    }
+    .tip { font-size: 12px; color: #777; margin-top: 8px; text-align: center; }
+  </style>
+</head>
+<body>
+  <h1>双人实时五子棋</h1>
+
+  <!-- 大厅界面 -->
+  <div id="lobby">
+    <p style="margin:0; color:#555;">输入相同的房间号即可和朋友联机</p>
+    <input type="text" id="roomInput" placeholder="例如: 8888" maxlength="20" />
+    <button class="btn-primary" id="joinBtn">进入房间</button>
+    <button class="btn-secondary" id="randomBtn">随机生成房间号</button>
+  </div>
+
+  <!-- 游戏界面 -->
+  <div id="game">
+    <div class="info-bar">
+      <span id="roomLabel">房间: -</span>
+      <span id="roleLabel">身份: -</span>
+    </div>
+    <div class="status-banner" id="statusBanner">等待中...</div>
+    <canvas id="board"></canvas>
+    <div class="controls">
+      <button id="confirmBtn">确认落子</button>
+      <button id="restartBtn">再来一局</button>
+      <button id="shareBtn">复制邀请链接</button>
+    </div>
+    <div class="tip">提示：点击棋盘可先预览位置，再点“确认落子”或再点一次该位置</div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+
+    const lobbyEl = document.getElementById('lobby');
+    const gameEl = document.getElementById('game');
+    const roomInput = document.getElementById('roomInput');
+    const joinBtn = document.getElementById('joinBtn');
+    const randomBtn = document.getElementById('randomBtn');
+    const roomLabel = document.getElementById('roomLabel');
+    const roleLabel = document.getElementById('roleLabel');
+    const statusBanner = document.getElementById('statusBanner');
+    const confirmBtn = document.getElementById('confirmBtn');
+    const restartBtn = document.getElementById('restartBtn');
+    const shareBtn = document.getElementById('shareBtn');
+    const canvas = document.getElementById('board');
+    const ctx = canvas.getContext('2d');
+
+    let currentRoom = '';
+    let gameState = null;
+    let myColor = 0; // 1: 黑, 2: 白
+    let previewPos = null; // { x, y } 手机端防误触预选位置
+
+    // 棋盘尺寸参数
+    let boardPx = 360;
+    let padding = 18;
+    let cellSize = 24;
+
+    function resizeCanvas() {
+      const dpr = window.devicePixelRatio || 1;
+      boardPx = Math.min(window.innerWidth - 24, 460);
+      padding = boardPx * 0.055;
+      cellSize = (boardPx - padding * 2) / 14;
+
+      canvas.style.width = boardPx + 'px';
+      canvas.style.height = boardPx + 'px';
+      canvas.width = boardPx * dpr;
+      canvas.height = boardPx * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      drawBoard();
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+
+    // 读取网址中的 ?room=xxx
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('room')) {
+      roomInput.value = urlParams.get('room');
+    } else {
+      roomInput.value = Math.floor(1000 + Math.random() * 9000);
+    }
+
+    randomBtn.onclick = () => {
+      roomInput.value = Math.floor(1000 + Math.random() * 9000);
+    };
+
+    joinBtn.onclick = () => {
+      const id = roomInput.value.trim();
+      if (!id) return alert('请输入房间号');
+      socket.emit('joinRoom', id);
+    };
+
+    socket.on('errorMsg', (msg) => alert(msg));
+
+    socket.on('joined', ({ roomId }) => {
+      currentRoom = roomId;
+      lobbyEl.style.display = 'none';
+      gameEl.style.display = 'flex';
+      roomLabel.textContent = `房间: ${roomId}`;
+      // 更新地址栏方便直接复制
+      const newUrl = `${window.location.pathname}?room=${encodeURIComponent(roomId)}`;
+      window.history.replaceState({}, '', newUrl);
+      resizeCanvas();
+    });
+
+    socket.on('opponentLeft', () => {
+      previewPos = null;
+      alert('对方已离开房间，棋局已重置');
+    });
+
+    socket.on('gameState', (state) => {
+      gameState = state;
+      myColor = (socket.id === state.blackId) ? 1 : (socket.id === state.whiteId ? 2 : 0);
+      previewPos = null;
+      updateUI();
+      drawBoard();
+    });
+
+    function updateUI() {
+      if (!gameState) return;
+      roleLabel.textContent = myColor === 1 ? '你是: ⚫ 黑棋' : (myColor === 2 ? '你是: ⚪ 白棋' : '旁观');
+
+      statusBanner.className = 'status-banner';
+      confirmBtn.style.display = 'none';
+      restartBtn.style.display = 'none';
+
+      if (!gameState.blackId || !gameState.whiteId) {
+        statusBanner.textContent = '等待朋友加入房间...（点击下方复制链接）';
+        return;
+      }
+
+      if (gameState.winner !== 0) {
+        statusBanner.classList.add('status-win');
+        if (gameState.winner === 3) {
+          statusBanner.textContent = '平局！棋盘已满';
+        } else if (gameState.winner === myColor) {
+          statusBanner.textContent = '🎉 恭喜你赢了！';
+        } else {
+          statusBanner.textContent = '😢 你输了，再接再厉！';
+        }
+        restartBtn.style.display = 'block';
+        return;
+      }
+
+      if (gameState.turn === myColor) {
+        statusBanner.classList.add('status-my-turn');
+        statusBanner.textContent = '轮到你落子了';
+        if (previewPos) confirmBtn.style.display = 'block';
+      } else {
+        statusBanner.textContent = '等待对方落子...';
+      }
+    }
+
+    function drawBoard() {
+      ctx.clearRect(0, 0, boardPx, boardPx);
+      ctx.fillStyle = '#e3b778';
+      ctx.fillRect(0, 0, boardPx, boardPx);
+
+      // 画网格线
+      ctx.strokeStyle = '#5c4024';
+      ctx.lineWidth = 1;
+      for (let i = 0; i < 15; i++) {
+        const pos = padding + i * cellSize;
+        ctx.beginPath();
+        ctx.moveTo(padding, pos);
+        ctx.lineTo(boardPx - padding, pos);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(pos, padding);
+        ctx.lineTo(pos, boardPx - padding);
+        ctx.stroke();
+      }
+
+      // 画五个星位（天元与四角星）
+      const stars = [[3,3], [11,3], [7,7], [3,11], [11,11]];
+      ctx.fillStyle = '#5c4024';
+      for (const [sx, sy] of stars) {
+        ctx.beginPath();
+        ctx.arc(padding + sx * cellSize, padding + sy * cellSize, 3.2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      if (!gameState) return;
+
+      // 画已落下的棋子
+      for (let y = 0; y < 15; y++) {
+        for (let x = 0; x < 15; x++) {
+          const val = gameState.board[y][x];
+          if (val !== 0) drawPiece(x, y, val, false);
+        }
+      }
+
+      // 高亮最后一手
+      if (gameState.lastMove) {
+        const lx = padding + gameState.lastMove.x * cellSize;
+        const ly = padding + gameState.lastMove.y * cellSize;
+        ctx.strokeStyle = '#ef4444';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(lx - 4, ly - 4, 8, 8);
+      }
+
+      // 画预选落子框（防误触）
+      if (previewPos && gameState.turn === myColor && gameState.winner === 0) {
+        drawPiece(previewPos.x, previewPos.y, myColor, true);
+      }
+    }
+
+    function drawPiece(x, y, color, isPreview) {
+      const cx = padding + x * cellSize;
+      const cy = padding + y * cellSize;
+      const r = cellSize * 0.43;
+
+      ctx.save();
+      if (isPreview) ctx.globalAlpha = 0.55;
+
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, 0, Math.PI * 2);
+      const grad = ctx.createRadialGradient(cx - r * 0.3, cy - r * 0.3, r * 0.1, cx, cy, r);
+      if (color === 1) {
+        grad.addColorStop(0, '#555');
+        grad.addColorStop(1, '#111');
+      } else {
+        grad.addColorStop(0, '#fff');
+        grad.addColorStop(1, '#d1d5db');
+      }
+      ctx.fillStyle = grad;
+      ctx.shadowColor = 'rgba(0,0,0,0.35)';
+      ctx.shadowBlur = 4;
+      ctx.shadowOffsetX = 1;
+      ctx.shadowOffsetY = 2;
+      ctx.fill();
+
+      if (isPreview) {
+        ctx.strokeStyle = '#16a34a';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+
+    // 棋盘点击处理
+    canvas.addEventListener('pointerdown', (e) => {
+      if (!gameState || !gameState.blackId || !gameState.whiteId) return;
+      if (gameState.winner !== 0 || gameState.turn !== myColor) return;
+
+      const rect = canvas.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const clickY = e.clientY - rect.top;
+
+      const x = Math.round((clickX - padding) / cellSize);
+      const y = Math.round((clickY - padding) / cellSize);
+
+      if (x < 0 || x >= 15 || y < 0 || y >= 15) return;
+      if (gameState.board[y][x] !== 0) return;
+
+      // 如果再次点击已经预选的位置，直接落子
+      if (previewPos && previewPos.x === x && previewPos.y === y) {
+        socket.emit('move', { x, y });
+        previewPos = null;
+      } else {
+        previewPos = { x, y };
+        updateUI();
+        drawBoard();
+      }
+    });
+
+    confirmBtn.onclick = () => {
+      if (previewPos) {
+        socket.emit('move', previewPos);
+        previewPos = null;
+      }
+    };
+
+    restartBtn.onclick = () => {
+      socket.emit('restart');
+    };
+
+    shareBtn.onclick = async () => {
+      const url = window.location.href;
+      try {
+        await navigator.clipboard.writeText(url);
+        alert('邀请链接已复制！直接发给微信好友即可：\n' + url);
+      } catch {
+        prompt('请长按复制下面链接发给好友：', url);
+      }
+    };
+  </script>
+</body>
+</html>
