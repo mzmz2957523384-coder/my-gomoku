@@ -21,6 +21,9 @@
       padding: 12px 10px 24px;
       touch-action: manipulation;
     }
+    .nav-tabs { display: flex; background: #e5dfd3; padding: 4px; border-radius: 12px; width: 100%; max-width: 390px; margin-bottom: 10px; }
+    .nav-tab { flex: 1; text-align: center; padding: 8px 0; border-radius: 9px; text-decoration: none; font-weight: 700; font-size: 15px; color: #555; }
+    .nav-tab.active { background: #fff; color: #222; box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
     h1 { margin: 2px 0 12px; font-size: 22px; color: #2c2c2c; }
 
     /* 首页模式选择大厅 */
@@ -174,6 +177,10 @@
   </style>
 </head>
 <body>
+  <div class="nav-tabs">
+    <a href="/" class="nav-tab active">⚫ 五子棋</a>
+    <a href="/doudizhu.html" class="nav-tab">🃏 斗地主</a>
+  </div>
   <h1>五子棋大战</h1>
 
   <!-- 大厅：双模式选择 -->
