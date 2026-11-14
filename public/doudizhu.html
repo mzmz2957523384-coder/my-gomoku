@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="小游戏大厅" />
+  <title>斗地主 - 联机 & AI补位</title>
+  <style>
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f4f1ea;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 10px 8px 24px;
+      touch-action: manipulation;
+    }
+
+    /* 融合五子棋的顶部切换栏 */
+    .nav-tabs {
+      display: flex;
+      background: #e5dfd3;
+      padding: 4px;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 390px;
+      margin-bottom: 10px;
+    }
+    .nav-tab {
+      flex: 1;
+      text-align: center;
+      padding: 8px 0;
+      border-radius: 9px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 15px;
+      color: #555;
+    }
+    .nav-tab.active {
+      background: #fff;
+      color: #222;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+
+    h1 { margin: 2px 0 12px; font-size: 21px; }
+
+    /* 大厅 */
+    #lobby {
+      width: 100%;
+      max-width: 390px;
+      background: #fff;
+      padding: 20px 18px;
+      border-radius: 16px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.07);
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 11px;
+      font-size: 16px;
+      text-align: center;
+      border: 2px solid #ddd;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      outline: none;
+    }
+    input[type="text"]:focus { border-color: #4a7c59; }
+    button {
+      border: none;
+      border-radius: 10px;
+      padding: 11px 14px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button:active { opacity: 0.75; }
+    .btn-green { background: #4a7c59; color: #fff; width: 100%; }
+    .btn-light { background: #e8e4dc; color: #333; width: 100%; margin-top: 8px; font-size: 14px; }
+
+    /* 牌桌界面 */
+    #table { display: none; flex-direction: column; align-items: center; width: 100%; max-width: 520px; }
+    .top-bar {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fff;
+      padding: 8px 12px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    /* 底牌与倍数区 */
+    .center-info {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      background: #2e5a3b;
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 12px;
+      margin-bottom: 8px;
+    }
+    .bottom-cards { display: flex; gap: 5px; align-items: center; }
+    .mini-card {
+      width: 28px;
+      height: 38px;
+      background: #fff;
+      color: #222;
+      border-radius: 5px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 800;
+      line-height: 1.05;
+    }
+    .mini-card.back { background: #4f6d7a; border: 1.5px solid #cbd5e1; color: #fff; }
+    .mini-card.red { color: #dc2626; }
+
+    /* 上家/下家座位区 */
+    .opponents-row {
+      width: 100%;
+      display: flex;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .seat-box {
+      flex: 1;
+      background: #fff;
+      border-radius: 12px;
+      padding: 8px 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      border: 2px solid transparent;
+      min-height: 92px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .seat-box.active-turn { border-color: #f59e0b; background: #fffbeb; }
+    .seat-head { display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: 700; }
+    .seat-stats { font-size: 11px; color: #666; margin-top: 2px; }
+    .seat-play { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 3px; align-items: center; min-height: 32px; }
+    .action-tag { font-size: 13px; font-weight: 700; color: #d97706; }
+    .kick-ai { background: #fee2e2; color: #b91c1c; font-size: 11px; padding: 2px 6px; border-radius: 6px; }
+
+    /* 状态提示横幅 */
+    .msg-banner {
+      width: 100%;
+      text-align: center;
+      background: #e9e4d9;
+      padding: 8px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .msg-turn { background: #d4edda; color: #155724; }
+
+    /* 我方出牌展示区 & 操控区 */
+    .my-played-zone {
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+    .controls {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .controls button { flex: 1; min-width: 72px; padding: 10px 6px; font-size: 14px; }
+    .btn-ai { background: #6366f1; color: #fff; }
+    .btn-start { background: #16a34a; color: #fff; }
+    .btn-play { background: #2e7d32; color: #fff; }
+    .btn-hint { background: #f59e0b; color: #fff; }
+    .btn-pass { background: #6b7280; color: #fff; }
+    .btn-bid { background: #2563eb; color: #fff; }
+
+    /* 我方信息与手牌 */
+    .my-info-bar {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 0 4px 6px;
+    }
+    .hand-container {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding-top: 12px;
+      user-select: none;
+    }
+    .hand-row {
+      display: flex;
+      justify-content: center;
+      padding-left: 12px;
+    }
+    .poker-card {
+      width: 39px;
+      height: 58px;
+      background: #fff;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 7px;
+      margin-left: -12px;
+      box-shadow: -1px 2px 5px rgba(0,0,0,0.14);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 3px 4px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.12s ease, border-color 0.12s;
+      color: #1f2937;
+    }
+    .poker-card.red { color: #dc2626; }
+    .poker-card.selected {
+      transform: translateY(-15px);
+      border-color: #2563eb;
+      background: #eff6ff;
+    }
+    .card-rank { font-size: 14px; line-height: 1; }
+    .card-suit { font-size: 13px; line-height: 1.1; }
+    .card-joker { font-size: 11px; line-height: 1.15; }
+
+    /* AI 等级选择弹窗 */
+    .modal-mask {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 99;
+    }
+    .modal-box {
+      background: #fff;
+      width: 100%;
+      max-width: 340px;
+      border-radius: 16px;
+      padding: 20px 18px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    }
+    .diff-option {
+      width: 100%;
+      text-align: left;
+      background: #f5f2eb;
+      color: #222;
+      padding: 12px 14px;
+      margin-bottom: 8px;
+      border: 2px solid transparent;
+      border-radius: 10px;
+    }
+    .diff-option.active {
+      border-color: #6366f1;
+      background: #eef2ff;
+    }
+    .diff-sub { display: block; font-size: 12px; font-weight: 400; color: #666; margin-top: 2px; }
+  </style>
+</head>
+<body>
+  <!-- 与五子棋融合的顶部切换栏 -->
+  <div class="nav-tabs">
+    <a href="/" class="nav-tab">⚫ 五子棋</a>
+    <a href="/doudizhu.html" class="nav-tab active">🃏 斗地主</a>
+  </div>
+
+  <h1>欢乐斗地主</h1>
+
+  <!-- 房间大厅 -->
+  <div id="lobby">
+    <p style="margin:0 0 10px; font-size:14px; color:#555; text-align:center;">
+      支持 1~3 人进房，人数不够可随时点 <strong>AI 补位</strong>
+    </p>
+    <input type="text" id="nameInput" placeholder="你的昵称（可选）" maxlength="10" />
+    <input type="text" id="roomInput" placeholder="房间号，例如 8888" maxlength="20" />
+    <button class="btn-green" id="joinBtn">进入牌桌</button>
+    <button class="btn-light" id="randomBtn">随机生成房间号</button>
+  </div>
+
+  <!-- 牌桌界面 -->
+  <div id="table">
+    <div class="top-bar">
+      <span id="roomLabel">房间: -</span>
+      <div style="display:flex; gap:6px;">
+        <button id="shareBtn" style="background:#3b82f6; color:#fff; padding:5px 10px; font-size:12px;">复制邀请</button>
+        <button id="exitBtn" style="background:#e5e0d5; color:#333; padding:5px 10px; font-size:12px;">退出</button>
+      </div>
+    </div>
+
+    <div class="center-info">
+      <div class="bottom-cards" id="bottomCards"></div>
+      <div style="text-align:right; font-size:13px;">
+        <div>倍数: <strong id="multText" style="color:#fde047;">×1</strong></div>
+      </div>
+    </div>
+
+    <!-- 左右对手 -->
+    <div class="opponents-row">
+      <div class="seat-box" id="leftSeatBox"></div>
+      <div class="seat-box" id="rightSeatBox"></div>
+    </div>
+
+    <div class="msg-banner" id="msgBanner">等待中...</div>
+    <div class="my-played-zone" id="myPlayedZone"></div>
+    <div class="controls" id="controlsBar"></div>
+
+    <div class="my-info-bar">
+      <span id="myRoleText">我: -</span>
+      <span id="myScoreText">战绩: 0胜 | 0分</span>
+    </div>
+    <div class="hand-container" id="handContainer"></div>
+  </div>
+
+  <!-- AI 补位等级选择弹窗 -->
+  <div class="modal-mask" id="aiModal">
+    <div class="modal-box">
+      <h3 style="margin:0 0 12px; font-size:18px;">🤖 选择 AI 补位等级</h3>
+      <button class="diff-option" data-diff="easy">
+        🌱 入门 AI
+        <span class="diff-sub">出牌随性，适合休闲娱乐</span>
+      </button>
+      <button class="diff-option active" data-diff="medium">
+        ⚔️ 普通 AI
+        <span class="diff-sub">懂得配合队友，会留炸弹</span>
+      </button>
+      <button class="diff-option" data-diff="hard">
+        🧠 高手 AI
+        <span class="diff-sub">优先走顺子三带，紧盯残局</span>
+      </button>
+      <div style="display:flex; gap:8px; margin-top:12px;">
+        <button class="btn-ai" id="addOneAiBtn" style="flex:1;">补位 1 个</button>
+        <button class="btn-start" id="addAllAiBtn" style="flex:1;">补满空位</button>
+      </div>
+      <button class="btn-light" id="closeModalBtn">取消</button>
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+    const lobbyEl = document.getElementById('lobby');
+    const tableEl = document.getElementById('table');
+    const nameInput = document.getElementById('nameInput');
+    const roomInput = document.getElementById('roomInput');
+    const joinBtn = document.getElementById('joinBtn');
+    const randomBtn = document.getElementById('randomBtn');
+    const roomLabel = document.getElementById('roomLabel');
+    const shareBtn = document.getElementById('shareBtn');
+    const exitBtn = document.getElementById('exitBtn');
+    const bottomCardsEl = document.getElementById('bottomCards');
+    const multText = document.getElementById('multText');
+    const leftSeatBox = document.getElementById('leftSeatBox');
+    const rightSeatBox = document.getElementById('rightSeatBox');
+    const msgBanner = document.getElementById('msgBanner');
+    const myPlayedZone = document.getElementById('myPlayedZone');
+    const controlsBar = document.getElementById('controlsBar');
+    const myRoleText = document.getElementById('myRoleText');
+    const myScoreText = document.getElementById('myScoreText');
+    const handContainer = document.getElementById('handContainer');
+
+    const aiModal = document.getElementById('aiModal');
+    const diffOptions = document.querySelectorAll('.diff-option');
+    let selectedAiDiff = 'medium';
+    let state = null;
+    let selectedIds = new Set();
+
+    const urlParams = new URLSearchParams(window.location.search);
+    roomInput.value = urlParams.get('room') || Math.floor(1000 + Math.random() * 9000);
+    randomBtn.onclick = () => { roomInput.value = Math.floor(1000 + Math.random() * 9000); };
+
+    diffOptions.forEach(btn => {
+      btn.onclick = () => {
+        diffOptions.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedAiDiff = btn.dataset.diff;
+      };
+    });
+
+    joinBtn.onclick = () => {
+      const id = roomInput.value.trim();
+      if (!id) return alert('请输入房间号');
+      socket.emit('ddz:joinRoom', { roomId: id, name: nameInput.value.trim() });
+    };
+
+    document.getElementById('addOneAiBtn').onclick = () => {
+      socket.emit('ddz:addAi', { diff: selectedAiDiff, fillAll: false });
+      aiModal.style.display = 'none';
+    };
+    document.getElementById('addAllAiBtn').onclick = () => {
+      socket.emit('ddz:addAi', { diff: selectedAiDiff, fillAll: true });
+      aiModal.style.display = 'none';
+    };
+    document.getElementById('closeModalBtn').onclick = () => {
+      aiModal.style.display = 'none';
+    };
+
+    shareBtn.onclick = async () => {
+      const url = window.location.href;
+      try { await navigator.clipboard.writeText(url); alert('斗地主房间链接已复制！\n' + url); }
+      catch { prompt('请复制链接发给好友：', url); }
+    };
+    exitBtn.onclick = () => { window.location.href = window.location.pathname; };
+
+    socket.on('ddz:error', (msg) => alert(msg));
+
+    socket.on('ddz:joined', ({ roomId }) => {
+      lobbyEl.style.display = 'none';
+      tableEl.style.display = 'flex';
+      roomLabel.textContent = `房间: ${roomId}`;
+      window.history.replaceState({}, '', `${window.location.pathname}?room=${encodeURIComponent(roomId)}`);
+    });
+
+    socket.on('ddz:hintResult', (ids) => {
+      if (!ids || ids.length === 0) return alert('没有能管上上家的牌，请点“不出”');
+      selectedIds = new Set(ids);
+      renderHand();
+    });
+
+    socket.on('ddz:state', (newState) => {
+      state = newState;
+      const myIds = new Set(state.myHand.map(c => c.id));
+      selectedIds = new Set([...selectedIds].filter(id => myIds.has(id)));
+      render();
+    });
+
+    function makeMiniCardsHtml(cards) {
+      return cards.map(c => {
+        const red = c.color === 'red' ? 'red' : '';
+        const text = (c.val >= 16) ? c.label : `${c.suit}<br>${c.label}`;
+        return `<div class="mini-card ${red}">${text}</div>`;
+      }).join('');
+    }
+
+    function renderSeat(box, idx) {
+      const seat = state.seats[idx];
+      const isTurn = (state.phase === 'bidding' || state.phase === 'playing') && state.turnIdx === idx;
+      box.className = 'seat-box' + (isTurn ? ' active-turn' : '');
+
+      if (!seat) {
+        box.innerHTML = `<div class="seat-head" style="color:#999;">空座位</div><div style="font-size:12px; color:#aaa;">等待加入或AI补位</div>`;
+        return;
+      }
+
+      const roleTag = state.landlordIdx === idx ? '👑地主' : (state.landlordIdx >= 0 ? '🌾农民' : '');
+      const kickBtn = (state.phase === 'waiting' && seat.type === 'ai')
+        ? `<button class="kick-ai" onclick="removeAi(${idx})">移除</button>` : '';
+      const countTxt = (state.phase === 'playing' || state.phase === 'bidding') ? `剩 ${seat.cardCount} 张` : '';
+      let playHtml = '';
+      if (seat.action) playHtml = `<span class="action-tag">${seat.action}</span>`;
+      else if (seat.playedCards && seat.playedCards.length > 0) playHtml = makeMiniCardsHtml(seat.playedCards);
+      else if (state.phase === 'finished' && seat.revealedHand && seat.revealedHand.length > 0) {
+        playHtml = `<span style="font-size:11px; color:#888;">余牌:</span>` + makeMiniCardsHtml(seat.revealedHand);
+      }
+
+      box.innerHTML = `
+        <div>
+          <div class="seat-head"><span>${roleTag} ${seat.name}</span>${kickBtn}</div>
+          <div class="seat-stats">${seat.wins}胜 | ${seat.score}分 ${countTxt}</div>
+        </div>
+        <div class="seat-play">${playHtml}</div>
+      `;
+    }
+
+    window.removeAi = (idx) => socket.emit('ddz:removeAi', idx);
+
+    function render() {
+      if (!state) return;
+      const myIdx = state.mySeatIdx;
+      const leftIdx = (myIdx + 2) % 3;
+      const rightIdx = (myIdx + 1) % 3;
+
+      multText.textContent = `×${state.multiplier}`;
+      if (state.bottomCards && state.bottomCards.length === 3) {
+        bottomCardsEl.innerHTML = `<span style="font-size:12px;">底牌:</span>` + makeMiniCardsHtml(state.bottomCards);
+      } else {
+        bottomCardsEl.innerHTML = `<span style="font-size:12px;">底牌:</span>` +
+          `<div class="mini-card back">?</div><div class="mini-card back">?</div><div class="mini-card back">?</div>`;
+      }
+
+      renderSeat(leftSeatBox, leftIdx);
+      renderSeat(rightSeatBox, rightIdx);
+
+      const mySeat = state.seats[myIdx];
+      const isMyTurn = (state.phase === 'bidding' || state.phase === 'playing') && state.turnIdx === myIdx;
+      msgBanner.className = 'msg-banner' + (isMyTurn ? ' msg-turn' : '');
+      msgBanner.textContent = state.message;
+
+      // 我方信息与计数器
+      const myRole = state.landlordIdx === myIdx ? '👑 地主' : (state.landlordIdx >= 0 ? '🌾 农民' : '未定');
+      myRoleText.textContent = `${mySeat.name} (${myRole})`;
+      myScoreText.textContent = `战绩: ${mySeat.wins}胜 | ${mySeat.score}分`;
+
+      // 我方桌面上一次出牌/叫分动作
+      if (mySeat.action) {
+        myPlayedZone.innerHTML = `<span class="action-tag">${mySeat.action}</span>`;
+      } else if (mySeat.playedCards && mySeat.playedCards.length > 0) {
+        myPlayedZone.innerHTML = makeMiniCardsHtml(mySeat.playedCards);
+      } else {
+        myPlayedZone.innerHTML = '';
+      }
+
+      // 操作按钮区
+      controlsBar.innerHTML = '';
+      const hasEmpty = state.seats.some(s => s === null);
+
+      if (state.phase === 'waiting') {
+        if (hasEmpty) {
+          const btn = document.createElement('button');
+          btn.className = 'btn-ai';
+          btn.textContent = '🤖 AI 补位（选等级）';
+          btn.onclick = () => { aiModal.style.display = 'flex'; };
+          controlsBar.appendChild(btn);
+        } else {
+          const btn = document.createElement('button');
+          btn.className = 'btn-start';
+          btn.textContent = '🃏 3人已满，开始发牌！';
+          btn.onclick = () => socket.emit('ddz:startGame');
+          controlsBar.appendChild(btn);
+        }
+      } else if (state.phase === 'bidding' && isMyTurn) {
+        const passBtn = document.createElement('button');
+        passBtn.className = 'btn-pass';
+        passBtn.textContent = '不叫';
+        passBtn.onclick = () => socket.emit('ddz:bid', 0);
+        controlsBar.appendChild(passBtn);
+
+        for (let b = 1; b <= 3; b++) {
+          if (b > state.highestBid) {
+            const bidBtn = document.createElement('button');
+            bidBtn.className = 'btn-bid';
+            bidBtn.textContent = `${b} 分`;
+            bidBtn.onclick = () => socket.emit('ddz:bid', b);
+            controlsBar.appendChild(bidBtn);
+          }
+        }
+      } else if (state.phase === 'playing' && isMyTurn) {
+        const canPass = state.lastPlayCards.length > 0 && state.lastPlaySeat !== myIdx;
+        if (canPass) {
+          const passBtn = document.createElement('button');
+          passBtn.className = 'btn-pass';
+          passBtn.textContent = '不出';
+          passBtn.onclick = () => { selectedIds.clear(); socket.emit('ddz:pass'); };
+          controlsBar.appendChild(passBtn);
+        }
+        const hintBtn = document.createElement('button');
+        hintBtn.className = 'btn-hint';
+        hintBtn.textContent = '💡 提示';
+        hintBtn.onclick = () => socket.emit('ddz:hint');
+        controlsBar.appendChild(hintBtn);
+
+        const playBtn = document.createElement('button');
+        playBtn.className = 'btn-play';
+        playBtn.textContent = '出牌';
+        playBtn.onclick = () => {
+          if (selectedIds.size === 0) return alert('请先点选要出的牌');
+          socket.emit('ddz:play', [...selectedIds]);
+        };
+        controlsBar.appendChild(playBtn);
+      } else if (state.phase === 'finished') {
+        const nextBtn = document.createElement('button');
+        nextBtn.className = 'btn-start';
+        nextBtn.textContent = '🃏 再来一局';
+        nextBtn.onclick = () => { selectedIds.clear(); socket.emit('ddz:startGame'); };
+        controlsBar.appendChild(nextBtn);
+      }
+
+      renderHand();
+    }
+
+    function renderHand() {
+      handContainer.innerHTML = '';
+      if (!state || !state.myHand || state.myHand.length === 0) return;
+      const cards = state.myHand;
+      const rows = cards.length > 10 ? [cards.slice(0, 10), cards.slice(10)] : [cards];
+
+      for (const rowCards of rows) {
+        const rowEl = document.createElement('div');
+        rowEl.className = 'hand-row';
+        for (const c of rowCards) {
+          const cardEl = document.createElement('div');
+          cardEl.className = 'poker-card' +
+            (c.color === 'red' ? ' red' : '') +
+            (selectedIds.has(c.id) ? ' selected' : '');
+
+          if (c.val >= 16) {
+            cardEl.innerHTML = `<span class="card-joker">${c.suit}<br>${c.label[0]}<br>${c.label[1]}</span>`;
+          } else {
+            cardEl.innerHTML = `<span class="card-rank">${c.label}</span><span class="card-suit">${c.suit}</span>`;
+          }
+
+          cardEl.onclick = () => {
+            if (selectedIds.has(c.id)) selectedIds.delete(c.id);
+            else selectedIds.add(c.id);
+            cardEl.classList.toggle('selected');
+          };
+          rowEl.appendChild(cardEl);
+        }
+        handContainer.appendChild(rowEl);
+      }
+    }
+  </script>
+</body>
+</html>
