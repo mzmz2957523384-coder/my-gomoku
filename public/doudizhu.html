@@ -6,13 +6,13 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-title" content="小游戏大厅" />
-  <title>欢乐斗地主 - 牌桌版</title>
+  <title>欢乐斗地主 - 写实实木牌桌</title>
   <style>
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     body {
       margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: linear-gradient(180deg, #1b4353 0%, #1d5c4b 45%, #123328 100%);
+      background: radial-gradient(ellipse at 50% 45%, #1d2f27 0%, #101b16 65%, #070d0a 100%);
       color: #fff;
       display: flex;
       flex-direction: column;
@@ -26,54 +26,57 @@
     /* 顶部融合切换栏 */
     .nav-tabs {
       display: flex;
-      background: rgba(0, 0, 0, 0.35);
+      background: rgba(0, 0, 0, 0.45);
       padding: 3px;
-      border-radius: 12px;
+      border-radius: 10px;
       width: 100%;
       max-width: 420px;
       margin-bottom: 8px;
-      border: 1px solid rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.1);
     }
     .nav-tab {
       flex: 1;
       text-align: center;
       padding: 7px 0;
-      border-radius: 9px;
+      border-radius: 8px;
       text-decoration: none;
       font-weight: 700;
       font-size: 14px;
-      color: rgba(255,255,255,0.72);
+      color: rgba(255,255,255,0.65);
     }
     .nav-tab.active {
-      background: linear-gradient(180deg, #f6d365 0%, #fda085 100%);
-      color: #3a1f04;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+      background: linear-gradient(180deg, #b88a54 0%, #8a6032 100%);
+      color: #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
     }
 
     /* 大厅进房卡片 */
     #lobby {
       width: 100%;
       max-width: 390px;
-      background: rgba(255, 255, 255, 0.96);
-      color: #333;
+      background: rgba(24, 28, 24, 0.9);
+      border: 1px solid rgba(196, 164, 120, 0.28);
+      color: #e7e2d8;
       padding: 22px 18px;
-      border-radius: 18px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+      border-radius: 16px;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.55);
       margin-top: 24px;
       text-align: center;
     }
-    #lobby h2 { margin: 0 0 6px; font-size: 22px; color: #5c3310; }
+    #lobby h2 { margin: 0 0 6px; font-size: 21px; color: #f3e5cc; }
     input[type="text"] {
       width: 100%;
       padding: 11px;
       font-size: 16px;
       text-align: center;
-      border: 2px solid #ddd;
-      border-radius: 10px;
+      background: rgba(0,0,0,0.35);
+      color: #fff;
+      border: 1.5px solid rgba(196, 164, 120, 0.35);
+      border-radius: 9px;
       margin-bottom: 10px;
       outline: none;
     }
-    input[type="text"]:focus { border-color: #d97706; }
+    input[type="text"]:focus { border-color: #c2955d; }
     button {
       border: none;
       border-radius: 10px;
@@ -84,12 +87,12 @@
     }
     button:active { transform: scale(0.97); opacity: 0.9; }
     .btn-gold {
-      background: linear-gradient(180deg, #fbbf24 0%, #d97706 100%);
+      background: linear-gradient(180deg, #b88a54 0%, #8a6032 100%);
       color: #fff;
       width: 100%;
-      box-shadow: 0 3px 10px rgba(217, 119, 6, 0.35);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
     }
-    .btn-light { background: #e8e4dc; color: #333; width: 100%; margin-top: 8px; font-size: 14px; }
+    .btn-light { background: rgba(255,255,255,0.12); color: #d6d3d1; width: 100%; margin-top: 8px; font-size: 14px; }
 
     /* ================= 牌桌主界面 ================= */
     #table {
@@ -101,7 +104,6 @@
       flex: 1;
     }
 
-    /* 顶部状态栏：底牌 + 倍数 + 房间操作 */
     .hud-top {
       width: 100%;
       display: flex;
@@ -111,9 +113,9 @@
       margin-bottom: 8px;
     }
     .hud-pill {
-      background: rgba(0, 0, 0, 0.4);
-      border: 1px solid rgba(255,255,255,0.16);
-      border-radius: 12px;
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(196, 164, 120, 0.22);
+      border-radius: 10px;
       padding: 5px 10px;
       display: flex;
       align-items: center;
@@ -124,7 +126,7 @@
     .mini-card {
       width: 24px;
       height: 33px;
-      background: #fff;
+      background: #faf8f5;
       color: #1f2937;
       border-radius: 4px;
       display: flex;
@@ -134,7 +136,7 @@
       font-size: 10px;
       font-weight: 800;
       line-height: 1.05;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.4);
     }
     .mini-card.back {
       background: linear-gradient(135deg, #2563eb, #1e3a8a);
@@ -145,40 +147,40 @@
     .hud-btn {
       padding: 5px 9px;
       font-size: 12px;
-      border-radius: 8px;
-      background: rgba(255,255,255,0.18);
+      border-radius: 7px;
+      background: rgba(255,255,255,0.16);
       color: #fff;
     }
 
-    /* 暖木色大弧形牌桌 */
+    /* 写实老实木弧形牌桌 */
     .poker-table {
       width: 100%;
       min-height: 295px;
-      background: radial-gradient(ellipse at 50% 40%, #f3d29b 0%, #dfb473 58%, #be8748 100%);
-      border: 6px solid #78441c;
-      border-radius: 140px 140px 36px 36px / 65px 65px 28px 28px;
-      box-shadow: inset 0 0 28px rgba(92, 48, 12, 0.45), 0 12px 30px rgba(0, 0, 0, 0.45);
+      background-color: #a8763e;
+      border: 7px solid #4a2b11;
+      border-radius: 140px 140px 34px 34px / 65px 65px 26px 26px;
+      box-shadow: inset 0 0 36px rgba(32, 14, 3, 0.55), 0 16px 36px rgba(0, 0, 0, 0.68), 0 6px 0 #2b1808;
       padding: 14px 10px 12px;
       position: relative;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       margin-bottom: 10px;
+      overflow: hidden;
     }
     .table-watermark {
       position: absolute;
       left: 50%;
       top: 52%;
       transform: translate(-50%, -50%);
-      font-size: 26px;
+      font-size: 25px;
       font-weight: 900;
-      letter-spacing: 4px;
-      color: rgba(110, 62, 18, 0.13);
+      letter-spacing: 5px;
+      color: rgba(45, 22, 5, 0.16);
       pointer-events: none;
       white-space: nowrap;
     }
 
-    /* 桌上左右对手排布 */
     .table-opponents {
       display: flex;
       justify-content: space-between;
@@ -197,21 +199,21 @@
     .opp-side.right { align-items: flex-end; text-align: right; }
 
     .seat-badge {
-      background: rgba(34, 20, 8, 0.68);
-      border: 1.5px solid rgba(255,255,255,0.2);
-      border-radius: 10px;
+      background: rgba(20, 12, 5, 0.72);
+      border: 1.5px solid rgba(255, 224, 178, 0.22);
+      border-radius: 9px;
       padding: 5px 8px;
       max-width: 155px;
       backdrop-filter: blur(4px);
     }
     .seat-badge.active-turn {
       border-color: #fde047;
-      box-shadow: 0 0 12px rgba(250, 204, 21, 0.7);
+      box-shadow: 0 0 12px rgba(250, 204, 21, 0.75);
     }
     .seat-badge.empty {
-      background: rgba(34, 20, 8, 0.32);
+      background: rgba(20, 12, 5, 0.35);
       border: 1.5px dashed rgba(255,255,255,0.38);
-      color: rgba(255,255,255,0.85);
+      color: rgba(255,255,255,0.88);
       font-size: 12px;
     }
     .seat-name-row {
@@ -224,12 +226,7 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
-    .role-tag {
-      font-size: 10px;
-      padding: 1px 5px;
-      border-radius: 4px;
-      font-weight: 800;
-    }
+    .role-tag { font-size: 10px; padding: 1px 5px; border-radius: 4px; font-weight: 800; }
     .role-landlord { background: #dc2626; color: #fff; }
     .role-peasant { background: #16a34a; color: #fff; }
     .seat-sub { font-size: 10px; color: #fde68a; margin-top: 2px; }
@@ -242,12 +239,7 @@
       margin-left: 4px;
     }
 
-    /* 蓝底牌背 + 剩余张数（复刻参考图） */
-    .opp-cards-row {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
+    .opp-cards-row { display: flex; align-items: center; gap: 6px; }
     .opp-side.right .opp-cards-row { flex-direction: row-reverse; }
     .card-back-count {
       width: 28px;
@@ -261,11 +253,10 @@
       font-size: 13px;
       font-weight: 900;
       color: #fff;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.35);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
       flex-shrink: 0;
     }
 
-    /* 桌上出牌堆叠展示 + 动画 */
     .played-stack {
       display: flex;
       align-items: center;
@@ -280,7 +271,7 @@
     .table-card {
       width: 31px;
       height: 44px;
-      background: #fff;
+      background: #faf8f5;
       color: #1f2937;
       border: 1px solid #cbd5e1;
       border-radius: 5px;
@@ -290,7 +281,7 @@
       flex-direction: column;
       align-items: flex-start;
       font-weight: 800;
-      box-shadow: -1px 2px 5px rgba(0,0,0,0.25);
+      box-shadow: -1px 2px 6px rgba(0,0,0,0.35);
       position: relative;
       overflow: hidden;
     }
@@ -299,17 +290,15 @@
     .table-card .tc-s { font-size: 11px; line-height: 1; }
     .table-card .tc-j { font-size: 9px; line-height: 1.05; }
 
-    /* 金色大字“不出”/“叫分” */
     .shout-text {
       font-size: 20px;
       font-weight: 900;
       color: #fef08a;
-      text-shadow: 0 2px 4px rgba(100, 45, 0, 0.85), 0 0 2px #78350f;
+      text-shadow: 0 2px 5px rgba(35, 15, 0, 0.9), 0 0 2px #451a03;
       letter-spacing: 1px;
       animation: popOnTable 0.2s ease-out;
     }
 
-    /* 牌桌中央消息 & 我方出牌区 */
     .table-center {
       display: flex;
       flex-direction: column;
@@ -320,7 +309,7 @@
       gap: 6px;
     }
     .table-msg {
-      background: rgba(74, 38, 10, 0.55);
+      background: rgba(28, 15, 4, 0.65);
       color: #fef3c7;
       padding: 4px 12px;
       border-radius: 20px;
@@ -334,7 +323,6 @@
       box-shadow: 0 0 10px rgba(34, 197, 94, 0.6);
     }
 
-    /* 牌桌底部操作按钮 */
     .controls {
       width: 100%;
       display: flex;
@@ -347,7 +335,7 @@
       padding: 9px 16px;
       font-size: 14px;
       border-radius: 20px;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.4);
       min-width: 78px;
     }
     .btn-ai { background: linear-gradient(180deg, #818cf8, #4f46e5); color: #fff; }
@@ -357,7 +345,6 @@
     .btn-pass { background: linear-gradient(180deg, #9ca3af, #4b5563); color: #fff; }
     .btn-bid { background: linear-gradient(180deg, #60a5fa, #2563eb); color: #fff; }
 
-    /* 我的手牌区（大号扑克牌 + 地主斜角标） */
     .hand-container {
       width: 100%;
       display: flex;
@@ -367,19 +354,15 @@
       padding: 6px 0 10px;
       user-select: none;
     }
-    .hand-row {
-      display: flex;
-      justify-content: center;
-      padding-left: 14px;
-    }
+    .hand-row { display: flex; justify-content: center; padding-left: 14px; }
     .poker-card {
       width: 42px;
       height: 64px;
-      background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+      background: linear-gradient(180deg, #ffffff 0%, #f3f0ea 100%);
       border: 1.5px solid #cbd5e1;
       border-radius: 7px;
       margin-left: -14px;
-      box-shadow: -2px 3px 7px rgba(0,0,0,0.32);
+      box-shadow: -2px 3px 8px rgba(0,0,0,0.42);
       display: flex;
       flex-direction: column;
       align-items: flex-start;
@@ -395,13 +378,12 @@
     .poker-card.selected {
       transform: translateY(-16px);
       border-color: #facc15;
-      box-shadow: 0 0 10px rgba(250, 204, 21, 0.75);
+      box-shadow: 0 0 10px rgba(250, 204, 21, 0.8);
     }
     .card-rank { font-size: 15px; line-height: 1; }
     .card-suit { font-size: 14px; line-height: 1.1; }
     .card-joker { font-size: 10px; line-height: 1.05; letter-spacing: 0.5px; }
 
-    /* 参考图同款“地主”红色斜角标 */
     .landlord-ribbon {
       position: absolute;
       top: 4px;
@@ -412,11 +394,10 @@
       font-weight: 900;
       padding: 1px 14px;
       transform: rotate(45deg);
-      box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.35);
       pointer-events: none;
     }
 
-    /* 底部战绩与记牌器栏 */
     .bottom-hud {
       width: 100%;
       display: flex;
@@ -428,15 +409,15 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: rgba(0,0,0,0.42);
+      background: rgba(0,0,0,0.45);
       padding: 6px 12px;
       border-radius: 10px;
       font-size: 13px;
-      border: 1px solid rgba(255,255,255,0.12);
+      border: 1px solid rgba(196, 164, 120, 0.2);
     }
     .tracker-bar {
       width: 100%;
-      background: rgba(28, 22, 16, 0.85);
+      background: rgba(20, 15, 10, 0.88);
       border: 1.5px solid #854d0e;
       border-radius: 10px;
       padding: 4px 4px;
@@ -444,23 +425,17 @@
       grid-template-columns: repeat(15, 1fr);
       text-align: center;
     }
-    .tr-col {
-      border-right: 1px solid rgba(255,255,255,0.1);
-      display: flex;
-      flex-direction: column;
-      gap: 1px;
-    }
+    .tr-col { border-right: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; gap: 1px; }
     .tr-col:last-child { border-right: none; }
     .tr-rank { font-size: 10px; font-weight: 700; color: #fde68a; }
     .tr-cnt { font-size: 11px; font-weight: 800; color: #fff; }
     .tr-cnt.zero { color: rgba(255,255,255,0.28); }
 
-    /* AI 等级选择弹窗 */
     .modal-mask {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.6);
+      background: rgba(0,0,0,0.65);
       align-items: center;
       justify-content: center;
       padding: 16px;
@@ -473,7 +448,7 @@
       max-width: 340px;
       border-radius: 16px;
       padding: 20px 18px;
-      box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.45);
     }
     .diff-option {
       width: 100%;
@@ -495,10 +470,9 @@
     <a href="/doudizhu.html" class="nav-tab active">🃏 斗地主</a>
   </div>
 
-  <!-- 进房大厅 -->
   <div id="lobby">
     <h2>🃏 欢乐斗地主</h2>
-    <p style="margin:0 0 14px; font-size:13px; color:#666;">
+    <p style="margin:0 0 14px; font-size:13px; color:#a8a29e;">
       支持 1~3 人进房，人数不够可随时点 <strong>AI 补位</strong>
     </p>
     <input type="text" id="nameInput" placeholder="你的昵称（可选）" maxlength="10" />
@@ -507,9 +481,7 @@
     <button class="btn-light" id="randomBtn">随机生成房间号</button>
   </div>
 
-  <!-- 牌桌界面 -->
   <div id="table">
-    <!-- 顶部 HUD：底牌 / 倍数 / 房间操作 -->
     <div class="hud-top">
       <div class="hud-pill">
         <span id="roomLabel">房:-</span>
@@ -522,30 +494,21 @@
       </div>
     </div>
 
-    <!-- 弧形暖木色牌桌 -->
     <div class="poker-table">
       <div class="table-watermark">欢乐斗地主</div>
-
-      <!-- 左右对手区（无人物头像，纯牌背计张+战绩+出牌） -->
       <div class="table-opponents">
         <div class="opp-side left" id="leftOpp"></div>
         <div class="opp-side right" id="rightOpp"></div>
       </div>
-
-      <!-- 桌中央提示 & 我方打出的牌 -->
       <div class="table-center">
         <div class="table-msg" id="msgBanner">等待中...</div>
         <div id="myPlayedZone" style="min-height:46px; display:flex; align-items:center; justify-content:center;"></div>
       </div>
-
-      <!-- 桌沿操作按钮 -->
       <div class="controls" id="controlsBar"></div>
     </div>
 
-    <!-- 我的手牌 -->
     <div class="hand-container" id="handContainer"></div>
 
-    <!-- 底部我的战绩 & 记牌器 -->
     <div class="bottom-hud">
       <div class="my-status-strip">
         <span id="myRoleText">我: -</span>
@@ -555,7 +518,6 @@
     </div>
   </div>
 
-  <!-- AI 补位等级选择弹窗 -->
   <div class="modal-mask" id="aiModal">
     <div class="modal-box">
       <h3 style="margin:0 0 12px; font-size:18px;">🤖 选择 AI 补位等级</h3>
@@ -575,7 +537,7 @@
         <button class="btn-ai" id="addOneAiBtn" style="flex:1; border-radius:10px;">补位 1 个</button>
         <button class="btn-start" id="addAllAiBtn" style="flex:1; border-radius:10px;">补满空位</button>
       </div>
-      <button class="btn-light" id="closeModalBtn">取消</button>
+      <button class="btn-light" id="closeModalBtn" style="background:#e8e4dc; color:#333;">取消</button>
     </div>
   </div>
 
@@ -608,7 +570,67 @@
     let selectedAiDiff = 'medium';
     let state = null;
     let selectedIds = new Set();
-    let seenPlayedIds = new Set(); // 用于记牌器统计已打出的牌
+    let seenPlayedIds = new Set();
+
+    // 生成写实老橡木裂痕牌桌纹理
+    (function applyRealWoodTable() {
+      const c = document.createElement('canvas');
+      const w = 520, h = 320;
+      c.width = w; c.height = h;
+      const g = c.getContext('2d');
+      let s = 987654;
+      const rand = () => ((s = (s * 1664525 + 1013904223) >>> 0) / 4294967296);
+
+      const bg = g.createLinearGradient(0, 0, w, h);
+      bg.addColorStop(0, '#c2935b'); bg.addColorStop(0.5, '#ad7b44'); bg.addColorStop(1, '#8f602e');
+      g.fillStyle = bg; g.fillRect(0, 0, w, h);
+
+      const knots = [{ x: w * 0.18, y: h * 0.25, r: 26 }, { x: w * 0.82, y: h * 0.72, r: 24 }];
+      for (let y = 0; y < h; y += 1.4) {
+        g.strokeStyle = rand() > 0.35 ? `rgba(55,26,6,${0.05 + rand() * 0.11})` : `rgba(240,200,145,${0.03 + rand() * 0.06})`;
+        g.lineWidth = 0.7 + rand() * 1.2;
+        g.beginPath();
+        const ph = rand() * 6.28, amp = 1.5 + rand() * 2.5;
+        for (let x = 0; x <= w; x += 12) {
+          let wy = y + Math.sin(x * 0.015 + ph) * amp;
+          for (const k of knots) {
+            const d = Math.hypot(x - k.x, wy - k.y);
+            if (d < k.r * 2.2) wy += (wy >= k.y ? 1 : -1) * (1 - d / (k.r * 2.2)) * k.r * 0.5;
+          }
+          x === 0 ? g.moveTo(x, wy) : g.lineTo(x, wy);
+        }
+        g.stroke();
+      }
+      for (const k of knots) {
+        for (let r = 3; r >= 1; r--) {
+          g.beginPath(); g.ellipse(k.x, k.y, k.r * r * 0.32, k.r * r * 0.15, 0.15, 0, Math.PI * 2);
+          g.strokeStyle = 'rgba(48,22,4,0.18)'; g.lineWidth = 1.1; g.stroke();
+        }
+      }
+      [[0, 75, 0.05, 130, 2.4], [w, 210, 3.1, 145, 2.5], [160, 0, 1.4, 55, 1.7], [w * 0.78, h, -1.5, 60, 1.8]].forEach(([sx, sy, ang, len, mw]) => {
+        let cx = sx, cy = sy, ca = ang;
+        g.lineCap = 'round';
+        for (let i = 0; i < len / 5; i++) {
+          ca += (rand() - 0.5) * 0.32;
+          const nx = cx + Math.cos(ca) * 5, ny = cy + Math.sin(ca) * 5;
+          const lw = mw * (1 - (i / (len / 5)) * 0.8);
+          g.beginPath(); g.moveTo(cx, cy + 1.1); g.lineTo(nx, ny + 1.1);
+          g.strokeStyle = 'rgba(245,210,155,0.28)'; g.lineWidth = lw * 0.8; g.stroke();
+          g.beginPath(); g.moveTo(cx, cy); g.lineTo(nx, ny);
+          g.strokeStyle = 'rgba(24,10,2,0.78)'; g.lineWidth = lw; g.stroke();
+          cx = nx; cy = ny;
+        }
+      });
+      for (let i = 0; i < 1600; i++) {
+        g.fillStyle = rand() > 0.4 ? 'rgba(40,18,4,0.12)' : 'rgba(245,210,160,0.06)';
+        g.fillRect(rand() * w, rand() * h, 1 + rand() * 2, 1);
+      }
+      const tbl = document.querySelector('.poker-table');
+      if (tbl) {
+        tbl.style.backgroundImage = `url(${c.toDataURL()})`;
+        tbl.style.backgroundSize = 'cover';
+      }
+    })();
 
     const urlParams = new URLSearchParams(window.location.search);
     roomInput.value = urlParams.get('room') || Math.floor(1000 + Math.random() * 9000);
@@ -708,7 +730,6 @@
         : (state.landlordIdx >= 0 ? `<span class="role-tag role-peasant">农民</span>` : '');
       const kickBtn = (state.phase === 'waiting' && seat.type === 'ai')
         ? `<button class="kick-ai" onclick="removeAi(${idx})">移除</button>` : '';
-
       const countBox = (state.phase === 'bidding' || state.phase === 'playing')
         ? `<div class="card-back-count">${seat.cardCount}</div>` : '';
 
@@ -746,15 +767,11 @@
         { val: 5, label: '5', total: 4 }, { val: 4, label: '4', total: 4 },
         { val: 3, label: '3', total: 4 }
       ];
-
-      // 如果还没开始发牌，记牌器先显示默认总张数或隐藏
       const playingOrEnded = state.phase === 'playing' || state.phase === 'finished';
       const myCounts = new Map();
       for (const c of state.myHand) myCounts.set(c.val, (myCounts.get(c.val) || 0) + 1);
-
       const playedCounts = new Map();
       for (const id of seenPlayedIds) {
-        // 根据 id 反推 val: 0..51 每4张一个点数(3..2), 52=小王(16), 53=大王(17)
         const v = id === 53 ? 17 : (id === 52 ? 16 : Math.floor(id / 4) + 3);
         playedCounts.set(v, (playedCounts.get(v) || 0) + 1);
       }
