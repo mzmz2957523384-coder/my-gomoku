@@ -6,18 +6,17 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-title" content="小游戏大厅" />
-  <title>五子棋 - 写实实木版</title>
+  <title>五子棋 - 晴空汉白玉版</title>
   <style>
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     body {
       margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      /* 深林树荫斑驳光影背景（无卡通元素） */
       background:
-        radial-gradient(circle at 22% 14%, rgba(163, 190, 128, 0.14) 0%, transparent 42%),
-        radial-gradient(circle at 80% 24%, rgba(214, 185, 130, 0.11) 0%, transparent 45%),
-        radial-gradient(ellipse at 50% 55%, #1d281f 0%, #111913 62%, #090e0a 100%);
-      color: #f1f5f9;
+        radial-gradient(circle at 18% 12%, rgba(255, 255, 255, 0.85) 0%, transparent 45%),
+        radial-gradient(circle at 85% 22%, rgba(186, 230, 253, 0.55) 0%, transparent 45%),
+        linear-gradient(180deg, #dff2f8 0%, #eaf5f2 52%, #dcebe8 100%);
+      color: #1e293b;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -29,40 +28,40 @@
 
     .nav-tabs {
       display: flex;
-      background: rgba(0, 0, 0, 0.45);
+      background: rgba(255, 255, 255, 0.78);
+      backdrop-filter: blur(10px);
       padding: 3px;
-      border-radius: 10px;
+      border-radius: 12px;
       width: 100%;
       max-width: 420px;
       margin-bottom: 8px;
-      border: 1px solid rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.95);
+      box-shadow: 0 2px 12px rgba(15, 23, 42, 0.06);
     }
     .nav-tab {
       flex: 1;
       text-align: center;
       padding: 7px 0;
-      border-radius: 8px;
+      border-radius: 9px;
       text-decoration: none;
       font-weight: 700;
       font-size: 14px;
-      color: rgba(255,255,255,0.65);
+      color: #64748b;
     }
     .nav-tab.active {
-      background: linear-gradient(180deg, #b88a54 0%, #8a6032 100%);
+      background: linear-gradient(180deg, #0ea5e9 0%, #0284c7 100%);
       color: #fff;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+      box-shadow: 0 2px 8px rgba(2, 132, 199, 0.3);
     }
 
     h1 {
-      margin: 2px 0 12px;
-      font-size: 21px;
-      color: #e7dcc8;
-      text-shadow: 0 2px 6px rgba(0,0,0,0.65);
-      letter-spacing: 3px;
-      font-weight: 700;
+      margin: 4px 0 12px;
+      font-size: 22px;
+      color: #0f172a;
+      letter-spacing: 4px;
+      font-weight: 800;
     }
 
-    /* 大厅卡片 */
     #lobby {
       width: 100%;
       max-width: 390px;
@@ -71,49 +70,49 @@
       gap: 14px;
     }
     .card {
-      background: rgba(24, 28, 24, 0.88);
-      border: 1px solid rgba(196, 164, 120, 0.25);
-      color: #e7e2d8;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid #fff;
+      color: #1e293b;
       padding: 20px 18px;
-      border-radius: 14px;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+      border-radius: 18px;
+      box-shadow: 0 8px 28px rgba(15, 23, 42, 0.08);
       backdrop-filter: blur(8px);
     }
-    .card-title { font-size: 17px; font-weight: 700; margin: 0 0 6px; color: #f3e5cc; }
-    .card-desc { font-size: 13px; color: #a8a29e; margin: 0 0 14px; }
-    .invite-highlight { border-color: #65a30d; background: rgba(24, 34, 22, 0.92); }
+    .card-title { font-size: 17px; font-weight: 700; margin: 0 0 6px; color: #0f172a; }
+    .card-desc { font-size: 13px; color: #64748b; margin: 0 0 14px; }
+    .invite-highlight { border: 2px solid #0ea5e9; background: #f0f9ff; }
 
     input[type="text"] {
       width: 100%;
       padding: 11px;
       font-size: 17px;
       text-align: center;
-      background: rgba(0,0,0,0.35);
-      color: #fff;
-      border: 1.5px solid rgba(196, 164, 120, 0.35);
-      border-radius: 9px;
+      background: #f8fafc;
+      color: #0f172a;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 10px;
       margin-bottom: 10px;
       outline: none;
     }
-    input[type="text"]:focus { border-color: #c2955d; }
+    input[type="text"]:focus { border-color: #0ea5e9; background: #fff; }
 
     .diff-group { display: flex; gap: 8px; margin-bottom: 12px; }
     .diff-btn {
       flex: 1;
       padding: 9px 6px;
       font-size: 14px;
-      background: rgba(255,255,255,0.08);
-      color: #d6d3d1;
-      border: 1.5px solid rgba(255,255,255,0.12);
-      border-radius: 9px;
+      background: #f1f5f9;
+      color: #475569;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 10px;
       font-weight: 600;
       cursor: pointer;
     }
-    .diff-btn.active { background: rgba(184, 138, 84, 0.28); color: #fde68a; border-color: #c2955d; }
+    .diff-btn.active { background: #e0f2fe; color: #0369a1; border-color: #0ea5e9; }
 
     button {
       border: none;
-      border-radius: 9px;
+      border-radius: 10px;
       padding: 12px 16px;
       font-size: 15px;
       font-weight: 700;
@@ -122,40 +121,34 @@
     }
     button:active { opacity: 0.85; transform: scale(0.98); }
     .btn-green {
-      background: linear-gradient(180deg, #4d7c0f 0%, #365314 100%);
+      background: linear-gradient(180deg, #10b981 0%, #059669 100%);
       color: #fff;
       width: 100%;
-      border: 1px solid rgba(255,255,255,0.15);
+      box-shadow: 0 3px 10px rgba(5, 150, 105, 0.25);
     }
     .btn-blue {
-      background: linear-gradient(180deg, #a17440 0%, #785126 100%);
+      background: linear-gradient(180deg, #0ea5e9 0%, #0284c7 100%);
       color: #fff;
       width: 100%;
-      border: 1px solid rgba(255,255,255,0.15);
+      box-shadow: 0 3px 10px rgba(2, 132, 199, 0.25);
     }
-    .btn-light {
-      background: rgba(255,255,255,0.1);
-      color: #d6d3d1;
-      width: 100%;
-      margin-top: 8px;
-      font-size: 14px;
-      padding: 9px;
-    }
+    .btn-light { background: #f1f5f9; color: #475569; width: 100%; margin-top: 8px; font-size: 14px; padding: 9px; }
 
-    /* 对战界面 */
     #game { display: none; flex-direction: column; align-items: center; width: 100%; max-width: 500px; }
     .info-bar {
       width: 100%;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: rgba(0, 0, 0, 0.45);
-      border: 1px solid rgba(196, 164, 120, 0.22);
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid #fff;
       padding: 9px 14px;
-      border-radius: 10px;
+      border-radius: 12px;
       margin-bottom: 8px;
       font-size: 14px;
-      color: #e7dcc8;
+      font-weight: 600;
+      color: #334155;
+      box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
     }
 
     .score-bar {
@@ -163,24 +156,25 @@
       display: flex;
       align-items: center;
       justify-content: space-around;
-      background: rgba(0, 0, 0, 0.45);
-      border: 1px solid rgba(196, 164, 120, 0.22);
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid #fff;
       padding: 7px 10px;
-      border-radius: 10px;
+      border-radius: 12px;
       margin-bottom: 8px;
+      box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
     }
     .score-item { display: flex; flex-direction: column; align-items: center; flex: 1; }
-    .score-label { font-size: 11px; color: #a8a29e; }
-    .score-num { font-size: 20px; font-weight: 800; color: #fff; line-height: 1.2; }
-    .score-win .score-num { color: #84cc16; }
-    .score-lose .score-num { color: #f87171; }
-    .score-divider { width: 1px; height: 26px; background: rgba(255,255,255,0.12); }
+    .score-label { font-size: 11px; color: #64748b; font-weight: 600; }
+    .score-num { font-size: 20px; font-weight: 800; color: #0f172a; line-height: 1.2; }
+    .score-win .score-num { color: #059669; }
+    .score-lose .score-num { color: #e11d48; }
+    .score-divider { width: 1px; height: 26px; background: #e2e8f0; }
     #resetScoreBtn {
-      background: rgba(255,255,255,0.1);
-      color: #d6d3d1;
+      background: #f1f5f9;
+      color: #475569;
       font-size: 12px;
       padding: 5px 8px;
-      border-radius: 7px;
+      border-radius: 8px;
       margin-left: 4px;
       display: none;
     }
@@ -189,61 +183,51 @@
       width: 100%;
       text-align: center;
       padding: 8px 12px;
-      border-radius: 10px;
+      border-radius: 20px;
       font-weight: 700;
       font-size: 14px;
       margin-bottom: 10px;
-      background: rgba(0, 0, 0, 0.5);
-      color: #e7dcc8;
-      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255, 255, 255, 0.9);
+      color: #475569;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
     }
     .status-my-turn {
-      background: rgba(54, 83, 20, 0.9);
-      color: #ecfccb;
-      border-color: rgba(132, 204, 22, 0.5);
+      background: linear-gradient(90deg, #10b981, #059669);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35);
     }
     .status-win {
-      background: rgba(146, 64, 14, 0.92);
-      color: #fef3c7;
-      border-color: rgba(245, 158, 11, 0.5);
+      background: linear-gradient(90deg, #f59e0b, #d97706);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
     }
 
-    /* 写实厚实木盘座 */
+    /* 磨砂拉丝银合金边框 + 汉白玉石材棋盘 */
     .board-frame {
       padding: 7px;
-      background: linear-gradient(145deg, #5e3a1c, #3b220d);
-      border-radius: 8px;
-      border: 1px solid rgba(255, 220, 175, 0.15);
-      box-shadow: 0 18px 40px rgba(0,0,0,0.75), 0 7px 0 #261506;
+      background: linear-gradient(145deg, #f1f5f9, #cbd5e1);
+      border-radius: 14px;
+      border: 1px solid #fff;
+      box-shadow: 0 14px 32px rgba(15, 23, 42, 0.16), 0 5px 0 #94a3b8;
     }
-    canvas {
-      display: block;
-      border-radius: 3px;
-      touch-action: none;
-    }
+    canvas { display: block; border-radius: 8px; touch-action: none; }
 
-    .controls {
-      width: 100%;
-      margin-top: 16px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
+    .controls { width: 100%; margin-top: 16px; display: flex; flex-wrap: wrap; gap: 8px; }
     .controls button {
       flex: 1;
       min-width: 105px;
       padding: 11px 10px;
       font-size: 14px;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+      border-radius: 20px;
+      box-shadow: 0 3px 10px rgba(15, 23, 42, 0.1);
     }
-    #confirmBtn { background: linear-gradient(180deg, #65a30d, #3f6212); color: #fff; flex: 2; min-width: 150px; display: none; }
-    #undoBtn { background: rgba(255,255,255,0.16); color: #fff; display: none; }
-    #restartBtn { background: linear-gradient(180deg, #d97706, #92400e); color: #fff; display: none; }
-    #shareBtn { background: linear-gradient(180deg, #3b82f6, #1d4ed8); color: #fff; display: none; }
-    #backBtn { background: rgba(255,255,255,0.12); color: #d6d3d1; border: 1px solid rgba(255,255,255,0.12); }
+    #confirmBtn { background: linear-gradient(180deg, #10b981, #059669); color: #fff; flex: 2; min-width: 150px; display: none; }
+    #undoBtn { background: #475569; color: #fff; display: none; }
+    #restartBtn { background: linear-gradient(180deg, #f59e0b, #d97706); color: #fff; display: none; }
+    #shareBtn { background: linear-gradient(180deg, #0ea5e9, #0284c7); color: #fff; display: none; }
+    #backBtn { background: rgba(255,255,255,0.92); color: #334155; }
 
-    .tip { font-size: 12px; color: rgba(231, 220, 200, 0.58); margin-top: 10px; text-align: center; }
+    .tip { font-size: 12px; color: #64748b; margin-top: 10px; text-align: center; }
   </style>
 </head>
 <body>
@@ -271,7 +255,7 @@
 
     <div class="card">
       <div class="card-title">🤖 单人 AI 对战</div>
-      <p class="card-desc">沉心对弈，和电脑 AI 切磋（你执黑棋先手）</p>
+      <p class="card-desc">随时随地和电脑 AI 切磋（你执黑棋先手）</p>
       <div class="diff-group">
         <button class="diff-btn" data-diff="easy">入门</button>
         <button class="diff-btn active" data-diff="medium">普通</button>
@@ -353,195 +337,70 @@
     const canvas = document.getElementById('board');
     const ctx = canvas.getContext('2d');
 
-    let mode = '';
-    let previewPos = null;
-    let onlineState = null;
-    let myColor = 0;
-    let lastOnlineMoveCount = 0;
-
-    let aiDiff = 'medium';
-    let aiBoard = [];
-    let aiTurn = 1;
-    let aiWinner = 0;
-    let aiLastMove = null;
-    let aiHistory = [];
-    let aiThinking = false;
-    let aiTimer = null;
+    let mode = '', previewPos = null, onlineState = null, myColor = 0, lastOnlineMoveCount = 0;
+    let aiDiff = 'medium', aiBoard = [], aiTurn = 1, aiWinner = 0, aiLastMove = null, aiHistory = [], aiThinking = false, aiTimer = null;
     let aiStats = loadAiStats();
 
     function loadAiStats() {
-      try {
-        const saved = JSON.parse(localStorage.getItem('gomoku_ai_stats'));
-        if (saved && typeof saved.win === 'number') return saved;
-      } catch {}
+      try { const s = JSON.parse(localStorage.getItem('gomoku_ai_stats')); if (s && typeof s.win === 'number') return s; } catch {}
       return { win: 0, lose: 0, draw: 0 };
     }
-    function saveAiStats() {
-      try { localStorage.setItem('gomoku_ai_stats', JSON.stringify(aiStats)); } catch {}
-    }
+    function saveAiStats() { try { localStorage.setItem('gomoku_ai_stats', JSON.stringify(aiStats)); } catch {} }
 
-    // 确定性随机数，保证每次画出来的木纹与裂痕固定不动
     function makeRng(seed) {
       let s = seed >>> 0;
-      return () => {
-        s = (s * 1664525 + 1013904223) >>> 0;
-        return s / 4294967296;
-      };
+      return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; };
     }
 
-    // 缓存写实木纹背景画布（含木纤维、木结、裂痕、包浆）
     let boardBgCanvas = document.createElement('canvas');
-    let boardPx = 350;
-    let padding = 18;
-    let cellSize = 23;
+    let boardPx = 350, padding = 18, cellSize = 23;
 
-    function buildRealisticWoodBoard(size, dpr) {
+    // 温润汉白玉大理石棋盘（零木质，高洁清透）
+    function buildMarbleBoard(size, dpr) {
       boardBgCanvas.width = size * dpr;
       boardBgCanvas.height = size * dpr;
       const bctx = boardBgCanvas.getContext('2d');
       bctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const rand = makeRng(202611);
 
-      const rand = makeRng(20261113);
-
-      // 1. 基础天然老木底色（偏真实原木暖棕，非艳黄卡通色）
-      const baseGrad = bctx.createLinearGradient(0, 0, size, size);
-      baseGrad.addColorStop(0, '#c69a63');
-      baseGrad.addColorStop(0.45, '#b6874e');
-      baseGrad.addColorStop(1, '#9e6f3a');
-      bctx.fillStyle = baseGrad;
+      // 柔和象牙白玉石底色
+      const base = bctx.createLinearGradient(0, 0, size, size);
+      base.addColorStop(0, '#fcfdfc');
+      base.addColorStop(0.5, '#f2f6f5');
+      base.addColorStop(1, '#e6eeec');
+      bctx.fillStyle = base;
       bctx.fillRect(0, 0, size, size);
 
-      // 2. 不均匀天然木材色斑（深浅块状过渡）
-      for (let i = 0; i < 12; i++) {
-        const rx = rand() * size;
-        const ry = rand() * size;
-        const rad = size * (0.18 + rand() * 0.25);
-        const spot = bctx.createRadialGradient(rx, ry, 2, rx, ry, rad);
-        const dark = rand() > 0.45;
-        spot.addColorStop(0, dark ? 'rgba(68, 36, 10, 0.14)' : 'rgba(235, 198, 140, 0.12)');
-        spot.addColorStop(1, 'rgba(0, 0, 0, 0)');
-        bctx.fillStyle = spot;
+      // 玉石云雾纹理
+      for (let i = 0; i < 14; i++) {
+        const rx = rand() * size, ry = rand() * size, rad = size * (0.2 + rand() * 0.3);
+        const cloud = bctx.createRadialGradient(rx, ry, 2, rx, ry, rad);
+        cloud.addColorStop(0, rand() > 0.5 ? 'rgba(148, 163, 184, 0.08)' : 'rgba(204, 232, 226, 0.14)');
+        cloud.addColorStop(1, 'rgba(255, 255, 255, 0)');
+        bctx.fillStyle = cloud;
         bctx.fillRect(0, 0, size, size);
       }
 
-      // 3. 密集纵向/横向木纤维纹理（模拟真实木纹走向）
-      const knots = [
-        { x: size * 0.16, y: size * 0.22, r: size * 0.08 },
-        { x: size * 0.84, y: size * 0.78, r: size * 0.075 }
-      ];
-
-      for (let y = 0; y < size; y += 1.4) {
-        const isDarkFiber = rand() > 0.3;
-        bctx.strokeStyle = isDarkFiber
-          ? `rgba(62, 31, 8, ${0.04 + rand() * 0.11})`
-          : `rgba(242, 210, 160, ${0.03 + rand() * 0.07})`;
-        bctx.lineWidth = 0.6 + rand() * 1.1;
+      // 细腻自然大理石脉络纹
+      for (let v = 0; v < 7; v++) {
+        let vx = rand() * size, vy = rand() * size, ang = rand() * Math.PI * 2;
         bctx.beginPath();
-        const phase = rand() * Math.PI * 2;
-        const amp = 1.2 + rand() * 2.5;
-        for (let x = 0; x <= size; x += 10) {
-          let wy = y + Math.sin(x * 0.018 + phase) * amp;
-          // 遇到木结处自然绕流变形
-          for (const k of knots) {
-            const dx = x - k.x, dy = wy - k.y;
-            const dist = Math.hypot(dx, dy);
-            if (dist < k.r * 2.2) {
-              const push = (1 - dist / (k.r * 2.2)) * k.r * 0.55;
-              wy += (dy >= 0 ? 1 : -1) * push;
-            }
-          }
-          if (x === 0) bctx.moveTo(x, wy);
-          else bctx.lineTo(x, wy);
+        bctx.moveTo(vx, vy);
+        const steps = 30 + Math.floor(rand() * 35);
+        for (let i = 0; i < steps; i++) {
+          ang += (rand() - 0.5) * 0.45;
+          vx += Math.cos(ang) * 8;
+          vy += Math.sin(ang) * 8;
+          bctx.lineTo(vx, vy);
         }
+        bctx.strokeStyle = v % 2 === 0 ? 'rgba(100, 116, 139, 0.1)' : 'rgba(14, 116, 144, 0.07)';
+        bctx.lineWidth = 0.8 + rand() * 1.8;
         bctx.stroke();
       }
 
-      // 4. 画真实的树结（年轮圈）
-      for (const k of knots) {
-        for (let ring = 4; ring >= 1; ring--) {
-          bctx.beginPath();
-          bctx.ellipse(k.x, k.y, k.r * ring * 0.32, k.r * ring * 0.16, 0.15, 0, Math.PI * 2);
-          bctx.strokeStyle = `rgba(52, 24, 5, ${0.12 + (5 - ring) * 0.04})`;
-          bctx.lineWidth = 1.1;
-          bctx.stroke();
-        }
-        const core = bctx.createRadialGradient(k.x, k.y, 1, k.x, k.y, k.r * 0.4);
-        core.addColorStop(0, 'rgba(42, 18, 4, 0.48)');
-        core.addColorStop(1, 'rgba(42, 18, 4, 0)');
-        bctx.fillStyle = core;
-        bctx.beginPath();
-        bctx.arc(k.x, k.y, k.r * 0.45, 0, Math.PI * 2);
-        bctx.fill();
-      }
-
-      // 5. 画真实的木头裂痕（锯齿形裂纹 + 深缝 + 边缘高光立体感）
-      function drawWoodCrack(startX, startY, angle, length, maxWidth) {
-        const pts = [{ x: startX, y: startY }];
-        let cx = startX, cy = startY, curAng = angle;
-        const steps = Math.floor(length / 5);
-        for (let i = 0; i < steps; i++) {
-          curAng += (rand() - 0.5) * 0.35;
-          cx += Math.cos(curAng) * 5;
-          cy += Math.sin(curAng) * 5;
-          pts.push({ x: cx, y: cy });
-        }
-
-        // 裂痕周围轻微渗色晕染
-        bctx.lineCap = 'round';
-        bctx.lineJoin = 'round';
-        for (let i = 1; i < pts.length; i++) {
-          const progress = i / pts.length;
-          const w = maxWidth * (1 - progress * 0.82);
-
-          // 晕染阴影
-          bctx.beginPath();
-          bctx.moveTo(pts[i - 1].x, pts[i - 1].y);
-          bctx.lineTo(pts[i].x, pts[i].y);
-          bctx.strokeStyle = 'rgba(40, 18, 4, 0.16)';
-          bctx.lineWidth = w + 3.2;
-          bctx.stroke();
-
-          // 裂纹下沿微弱受光边缘（产生真实凹陷感）
-          bctx.beginPath();
-          bctx.moveTo(pts[i - 1].x, pts[i - 1].y + 1.1);
-          bctx.lineTo(pts[i].x, pts[i].y + 1.1);
-          bctx.strokeStyle = 'rgba(245, 212, 160, 0.28)';
-          bctx.lineWidth = Math.max(0.5, w * 0.7);
-          bctx.stroke();
-
-          // 深黑裂隙主缝
-          bctx.beginPath();
-          bctx.moveTo(pts[i - 1].x, pts[i - 1].y);
-          bctx.lineTo(pts[i].x, pts[i].y);
-          bctx.strokeStyle = `rgba(28, 12, 3, ${0.78 - progress * 0.3})`;
-          bctx.lineWidth = Math.max(0.4, w);
-          bctx.stroke();
-        }
-      }
-
-      // 分布几道自然干裂纹（边缘起裂 + 树结旁小裂纹）
-      drawWoodCrack(0, size * 0.19, 0.06, size * 0.24, 2.3);
-      drawWoodCrack(size, size * 0.67, Math.PI - 0.08, size * 0.28, 2.5);
-      drawWoodCrack(size * 0.34, size, -Math.PI * 0.45, size * 0.12, 1.8);
-      drawWoodCrack(size * 0.14, size * 0.22, 0.12, size * 0.13, 1.4);
-      drawWoodCrack(size * 0.85, size * 0.78, Math.PI + 0.05, size * 0.14, 1.5);
-
-      // 6. 细微木孔质感颗粒
-      for (let i = 0; i < 1800; i++) {
-        bctx.fillStyle = rand() > 0.4 ? 'rgba(55, 25, 6, 0.12)' : 'rgba(250, 220, 175, 0.07)';
-        bctx.fillRect(rand() * size, rand() * size, 1 + rand() * 2.2, 1);
-      }
-
-      // 7. 四周做旧暗角包浆
-      const vig = bctx.createRadialGradient(size / 2, size / 2, size * 0.3, size / 2, size / 2, size * 0.76);
-      vig.addColorStop(0, 'rgba(0,0,0,0)');
-      vig.addColorStop(1, 'rgba(32, 15, 3, 0.34)');
-      bctx.fillStyle = vig;
-      bctx.fillRect(0, 0, size, size);
-
-      // 8. 清晰的15x15深色刻线网格（保证在真实木纹上依然清晰可读）
-      bctx.strokeStyle = 'rgba(28, 14, 4, 0.82)';
-      bctx.lineWidth = 1.1;
+      // 15x15 清爽石青刻线
+      bctx.strokeStyle = 'rgba(51, 65, 85, 0.72)';
+      bctx.lineWidth = 1;
       for (let i = 0; i < 15; i++) {
         const pos = padding + i * cellSize;
         bctx.beginPath(); bctx.moveTo(padding, pos); bctx.lineTo(size - padding, pos); bctx.stroke();
@@ -549,16 +408,13 @@
       }
 
       const stars = [[3,3], [11,3], [7,7], [3,11], [11,11]];
-      bctx.fillStyle = 'rgba(24, 11, 3, 0.88)';
+      bctx.fillStyle = 'rgba(30, 41, 59, 0.82)';
       for (const [sx, sy] of stars) {
-        bctx.beginPath();
-        bctx.arc(padding + sx * cellSize, padding + sy * cellSize, 3.3, 0, Math.PI * 2);
-        bctx.fill();
+        bctx.beginPath(); bctx.arc(padding + sx * cellSize, padding + sy * cellSize, 3.2, 0, Math.PI * 2); bctx.fill();
       }
     }
 
-    let animPiece = null;
-    let rafId = null;
+    let animPiece = null, rafId = null;
     function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
 
     function startDropAnimation(x, y, color) {
@@ -567,11 +423,8 @@
       function tick(now) {
         drawBoard(now);
         if (animPiece) {
-          if (now - animPiece.startTime < animPiece.duration) {
-            rafId = requestAnimationFrame(tick);
-          } else {
-            animPiece = null; rafId = null; drawBoard();
-          }
+          if (now - animPiece.startTime < animPiece.duration) rafId = requestAnimationFrame(tick);
+          else { animPiece = null; rafId = null; drawBoard(); }
         }
       }
       rafId = requestAnimationFrame(tick);
@@ -582,14 +435,10 @@
       boardPx = Math.min(window.innerWidth - 34, 450);
       padding = boardPx * 0.055;
       cellSize = (boardPx - padding * 2) / 14;
-
-      canvas.style.width = boardPx + 'px';
-      canvas.style.height = boardPx + 'px';
-      canvas.width = boardPx * dpr;
-      canvas.height = boardPx * dpr;
+      canvas.style.width = boardPx + 'px'; canvas.style.height = boardPx + 'px';
+      canvas.width = boardPx * dpr; canvas.height = boardPx * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-      buildRealisticWoodBoard(boardPx, dpr);
+      buildMarbleBoard(boardPx, dpr);
       drawBoard();
     }
     window.addEventListener('resize', resizeCanvas);
@@ -597,17 +446,14 @@
     diffBtns.forEach(btn => {
       btn.onclick = () => {
         diffBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        aiDiff = btn.dataset.diff;
+        btn.classList.add('active'); aiDiff = btn.dataset.diff;
       };
     });
 
     const urlParams = new URLSearchParams(window.location.search);
     const inviteRoom = urlParams.get('room');
     if (inviteRoom) {
-      roomInput.value = inviteRoom;
-      inviteRoomText.textContent = inviteRoom;
-      inviteCard.style.display = 'block';
+      roomInput.value = inviteRoom; inviteRoomText.textContent = inviteRoom; inviteCard.style.display = 'block';
     } else {
       roomInput.value = Math.floor(1000 + Math.random() * 9000);
     }
@@ -616,29 +462,22 @@
     function enterOnlineRoom(roomId) {
       const id = String(roomId || '').trim();
       if (!id) return alert('请输入房间号');
-      mode = 'online';
-      lastOnlineMoveCount = 0;
-      socket.emit('joinRoom', id);
+      mode = 'online'; lastOnlineMoveCount = 0; socket.emit('joinRoom', id);
     }
     joinBtn.onclick = () => enterOnlineRoom(roomInput.value);
     quickJoinBtn.onclick = () => enterOnlineRoom(inviteRoom);
 
     socket.on('errorMsg', (msg) => alert(msg));
-
     socket.on('joined', ({ roomId }) => {
-      mode = 'online';
-      lobbyEl.style.display = 'none';
-      gameEl.style.display = 'flex';
+      mode = 'online'; lobbyEl.style.display = 'none'; gameEl.style.display = 'flex';
       roomLabel.textContent = `房间: ${roomId}`;
       window.history.replaceState({}, '', `${window.location.pathname}?room=${encodeURIComponent(roomId)}`);
       resizeCanvas();
     });
-
     socket.on('opponentLeft', () => {
       previewPos = null; animPiece = null; lastOnlineMoveCount = 0;
       alert('对方已离开房间，棋局与比分已重置');
     });
-
     socket.on('gameState', (state) => {
       if (mode !== 'online') return;
       const shouldAnimate = state.moveCount > lastOnlineMoveCount && state.lastMove && lastOnlineMoveCount >= 0;
@@ -647,53 +486,31 @@
       previewPos = null;
       if (state.moveCount === 0) animPiece = null;
       updateUI();
-      if (shouldAnimate && state.moveCount > 0) {
-        const lm = state.lastMove;
-        startDropAnimation(lm.x, lm.y, state.board[lm.y][lm.x]);
-      } else {
-        drawBoard();
-      }
+      if (shouldAnimate && state.moveCount > 0) startDropAnimation(state.lastMove.x, state.lastMove.y, state.board[state.lastMove.y][state.lastMove.x]);
+      else drawBoard();
       lastOnlineMoveCount = state.moveCount;
     });
 
     function createEmptyBoard() { return Array.from({ length: 15 }, () => Array(15).fill(0)); }
 
     function startAiGame() {
-      if (aiTimer) clearTimeout(aiTimer);
-      if (rafId) cancelAnimationFrame(rafId);
+      if (aiTimer) clearTimeout(aiTimer); if (rafId) cancelAnimationFrame(rafId);
       animPiece = null; mode = 'ai'; aiBoard = createEmptyBoard();
-      aiTurn = 1; aiWinner = 0; aiLastMove = null; aiHistory = [];
-      aiThinking = false; previewPos = null;
-
+      aiTurn = 1; aiWinner = 0; aiLastMove = null; aiHistory = []; aiThinking = false; previewPos = null;
       const diffNames = { easy: '入门', medium: '普通', hard: '高手' };
-      lobbyEl.style.display = 'none';
-      gameEl.style.display = 'flex';
-      roomLabel.textContent = `AI模式 (${diffNames[aiDiff]})`;
-      roleLabel.textContent = '你是: ⚫ 黑棋';
-      resizeCanvas();
-      updateUI();
+      lobbyEl.style.display = 'none'; gameEl.style.display = 'flex';
+      roomLabel.textContent = `AI模式 (${diffNames[aiDiff]})`; roleLabel.textContent = '你是: ⚫ 黑棋';
+      resizeCanvas(); updateUI();
     }
     startAiBtn.onclick = startAiGame;
-
-    resetScoreBtn.onclick = () => {
-      if (mode !== 'ai') return;
-      aiStats = { win: 0, lose: 0, draw: 0 }; saveAiStats(); updateUI();
-    };
+    resetScoreBtn.onclick = () => { if (mode === 'ai') { aiStats = { win: 0, lose: 0, draw: 0 }; saveAiStats(); updateUI(); } };
 
     function getWinLine(board, x, y, color) {
       const dirs = [[1,0], [0,1], [1,1], [1,-1]];
       for (const [dx, dy] of dirs) {
         const line = [{ x, y }];
-        for (let s = 1; s < 5; s++) {
-          const nx = x + dx * s, ny = y + dy * s;
-          if (nx < 0 || nx >= 15 || ny < 0 || ny >= 15 || board[ny][nx] !== color) break;
-          line.push({ x: nx, y: ny });
-        }
-        for (let s = 1; s < 5; s++) {
-          const nx = x - dx * s, ny = y - dy * s;
-          if (nx < 0 || nx >= 15 || ny < 0 || ny >= 15 || board[ny][nx] !== color) break;
-          line.push({ x: nx, y: ny });
-        }
+        for (let s = 1; s < 5; s++) { const nx = x + dx * s, ny = y + dy * s; if (nx < 0 || nx >= 15 || ny < 0 || ny >= 15 || board[ny][nx] !== color) break; line.push({ x: nx, y: ny }); }
+        for (let s = 1; s < 5; s++) { const nx = x - dx * s, ny = y - dy * s; if (nx < 0 || nx >= 15 || ny < 0 || ny >= 15 || board[ny][nx] !== color) break; line.push({ x: nx, y: ny }); }
         if (line.length >= 5) return line;
       }
       return null;
@@ -745,30 +562,19 @@
         for (const m of candidates) if (evalPointForColor(aiBoard, m.x, m.y, 1) >= 100000) return m;
       }
       const scored = candidates.map(m => {
-        const atk = evalPointForColor(aiBoard, m.x, m.y, 2);
-        const def = evalPointForColor(aiBoard, m.x, m.y, 1);
+        const atk = evalPointForColor(aiBoard, m.x, m.y, 2), def = evalPointForColor(aiBoard, m.x, m.y, 1);
         const centerBonus = (7 - Math.abs(m.x - 7)) + (7 - Math.abs(m.y - 7));
-        const score = aiDiff === 'easy'
-          ? atk + def * 0.5 + centerBonus + Math.random() * 180
-          : atk * 1.1 + def + centerBonus;
+        const score = aiDiff === 'easy' ? atk + def * 0.5 + centerBonus + Math.random() * 180 : atk * 1.1 + def + centerBonus;
         return { x: m.x, y: m.y, atk, def, score };
       }).sort((a, b) => b.score - a.score);
-
-      if (aiDiff === 'easy') {
-        const pool = scored.slice(0, Math.min(4, scored.length));
-        return pool[Math.floor(Math.random() * pool.length)];
-      }
+      if (aiDiff === 'easy') return scored[Math.floor(Math.random() * Math.min(4, scored.length))];
       if (aiDiff === 'medium' || scored[0].atk >= 15000) return scored[0];
-
       const topList = scored.slice(0, Math.min(8, scored.length));
       let bestMove = topList[0], bestFinal = -Infinity;
       for (const m of topList) {
         aiBoard[m.y][m.x] = 2;
         let maxPlayerThreat = 0;
-        for (const r of getCandidateMoves(aiBoard)) {
-          const pAtk = evalPointForColor(aiBoard, r.x, r.y, 1);
-          if (pAtk > maxPlayerThreat) maxPlayerThreat = pAtk;
-        }
+        for (const r of getCandidateMoves(aiBoard)) { const pAtk = evalPointForColor(aiBoard, r.x, r.y, 1); if (pAtk > maxPlayerThreat) maxPlayerThreat = pAtk; }
         aiBoard[m.y][m.x] = 0;
         const finalScore = m.atk * 1.15 + m.def * 0.6 - maxPlayerThreat * 0.9;
         if (finalScore > bestFinal) { bestFinal = finalScore; bestMove = m; }
@@ -779,27 +585,17 @@
     function executePlayerAiMove(x, y) {
       if (aiThinking || aiWinner !== 0 || aiTurn !== 1 || aiBoard[y][x] !== 0) return;
       aiBoard[y][x] = 1; aiLastMove = { x, y }; aiHistory.push({ x, y, color: 1 }); previewPos = null;
-
-      if (getWinLine(aiBoard, x, y, 1)) {
-        aiWinner = 1; aiStats.win++; saveAiStats(); updateUI(); startDropAnimation(x, y, 1); return;
-      }
-      if (aiHistory.length === 225) {
-        aiWinner = 3; aiStats.draw++; saveAiStats(); updateUI(); startDropAnimation(x, y, 1); return;
-      }
-
+      if (getWinLine(aiBoard, x, y, 1)) { aiWinner = 1; aiStats.win++; saveAiStats(); updateUI(); startDropAnimation(x, y, 1); return; }
+      if (aiHistory.length === 225) { aiWinner = 3; aiStats.draw++; saveAiStats(); updateUI(); startDropAnimation(x, y, 1); return; }
       aiTurn = 2; aiThinking = true; updateUI(); startDropAnimation(x, y, 1);
-
       aiTimer = setTimeout(() => {
         if (mode !== 'ai') return;
         const move = chooseAiMove();
         if (move) {
-          aiBoard[move.y][move.x] = 2; aiLastMove = { x: move.x, y: move.y };
-          aiHistory.push({ x: move.x, y: move.y, color: 2 });
-          if (getWinLine(aiBoard, move.x, move.y, 2)) {
-            aiWinner = 2; aiStats.lose++; saveAiStats();
-          } else if (aiHistory.length === 225) {
-            aiWinner = 3; aiStats.draw++; saveAiStats();
-          } else { aiTurn = 1; }
+          aiBoard[move.y][move.x] = 2; aiLastMove = { x: move.x, y: move.y }; aiHistory.push({ x: move.x, y: move.y, color: 2 });
+          if (getWinLine(aiBoard, move.x, move.y, 2)) { aiWinner = 2; aiStats.lose++; saveAiStats(); }
+          else if (aiHistory.length === 225) { aiWinner = 3; aiStats.draw++; saveAiStats(); }
+          else aiTurn = 1;
           aiThinking = false; updateUI(); startDropAnimation(move.x, move.y, 2);
         } else { aiThinking = false; updateUI(); }
       }, 360);
@@ -809,7 +605,6 @@
       statusBanner.className = 'status-banner';
       confirmBtn.style.display = 'none'; undoBtn.style.display = 'none';
       restartBtn.style.display = 'none'; shareBtn.style.display = 'none'; resetScoreBtn.style.display = 'none';
-
       if (mode === 'online') {
         if (!onlineState) return;
         shareBtn.style.display = 'block';
@@ -819,58 +614,39 @@
         myScoreNum.textContent = (onlineState.scores && onlineState.scores[socket.id]) || 0;
         drawScoreNum.textContent = onlineState.draws || 0;
         oppScoreNum.textContent = (oppId && onlineState.scores && onlineState.scores[oppId]) || 0;
-
-        if (!onlineState.blackId || !onlineState.whiteId) {
-          statusBanner.textContent = '等待朋友加入房间...（点击下方复制链接）'; return;
-        }
+        if (!onlineState.blackId || !onlineState.whiteId) { statusBanner.textContent = '等待朋友加入房间...（点击下方复制链接）'; return; }
         if (onlineState.winner !== 0) {
           statusBanner.classList.add('status-win');
-          if (onlineState.winner === 3) statusBanner.textContent = '平局！棋盘已满';
-          else if (onlineState.winner === myColor) statusBanner.textContent = '🎉 恭喜你赢了！';
-          else statusBanner.textContent = '😢 你输了，再接再厉！';
+          statusBanner.textContent = onlineState.winner === 3 ? '平局！棋盘已满' : (onlineState.winner === myColor ? '🎉 恭喜你赢了！' : '😢 你输了，再接再厉！');
           restartBtn.style.display = 'block'; return;
         }
-        if (onlineState.turn === myColor) {
-          statusBanner.classList.add('status-my-turn'); statusBanner.textContent = '轮到你落子了';
-          if (previewPos) confirmBtn.style.display = 'block';
-        } else {
-          statusBanner.textContent = '等待对方落子...';
-        }
+        if (onlineState.turn === myColor) { statusBanner.classList.add('status-my-turn'); statusBanner.textContent = '轮到你落子了'; if (previewPos) confirmBtn.style.display = 'block'; }
+        else statusBanner.textContent = '等待对方落子...';
       } else if (mode === 'ai') {
         myScoreLabel.textContent = '你赢了'; oppScoreLabel.textContent = 'AI赢了';
-        myScoreNum.textContent = aiStats.win; drawScoreNum.textContent = aiStats.draw;
-        oppScoreNum.textContent = aiStats.lose; resetScoreBtn.style.display = 'block';
-
+        myScoreNum.textContent = aiStats.win; drawScoreNum.textContent = aiStats.draw; oppScoreNum.textContent = aiStats.lose;
+        resetScoreBtn.style.display = 'block';
         if (aiWinner !== 0) {
           statusBanner.classList.add('status-win');
-          if (aiWinner === 3) statusBanner.textContent = '平局！棋盘已满';
-          else if (aiWinner === 1) statusBanner.textContent = '🎉 你战胜了 AI！';
-          else statusBanner.textContent = '🤖 AI 获胜了，再来挑战吧！';
+          statusBanner.textContent = aiWinner === 3 ? '平局！棋盘已满' : (aiWinner === 1 ? '🎉 你战胜了 AI！' : '🤖 AI 获胜了，再来挑战吧！');
           restartBtn.style.display = 'block'; return;
         }
         if (aiTurn === 1) {
           statusBanner.classList.add('status-my-turn'); statusBanner.textContent = '轮到你落子了';
           if (previewPos) confirmBtn.style.display = 'block';
           if (aiHistory.length >= 2) undoBtn.style.display = 'block';
-        } else {
-          statusBanner.textContent = '🤖 AI 正在思考...';
-        }
+        } else statusBanner.textContent = '🤖 AI 正在思考...';
       }
     }
 
     function drawBoard(now = performance.now()) {
       ctx.clearRect(0, 0, boardPx, boardPx);
-      // 直接贴入渲染好的写实木纹与裂痕底板
       ctx.drawImage(boardBgCanvas, 0, 0, boardPx, boardPx);
-
       const board = mode === 'online' ? (onlineState && onlineState.board) : aiBoard;
       const lastMove = mode === 'online' ? (onlineState && onlineState.lastMove) : aiLastMove;
       const winner = mode === 'online' ? (onlineState ? onlineState.winner : 0) : aiWinner;
-      const canPreview = mode === 'online'
-        ? (onlineState && onlineState.turn === myColor && onlineState.winner === 0)
-        : (aiTurn === 1 && aiWinner === 0 && !aiThinking);
+      const canPreview = mode === 'online' ? (onlineState && onlineState.turn === myColor && onlineState.winner === 0) : (aiTurn === 1 && aiWinner === 0 && !aiThinking);
       const previewColor = mode === 'online' ? myColor : 1;
-
       if (!board || board.length === 0) return;
 
       for (let y = 0; y < 15; y++) {
@@ -880,149 +656,92 @@
           drawPiece(x, y, board[y][x], false);
         }
       }
-
       if ((winner === 1 || winner === 2) && lastMove && !animPiece) {
         const winLine = getWinLine(board, lastMove.x, lastMove.y, winner);
         if (winLine) {
-          ctx.save();
-          ctx.strokeStyle = '#f59e0b'; ctx.lineWidth = 3;
-          for (const pt of winLine) {
-            ctx.beginPath();
-            ctx.arc(padding + pt.x * cellSize, padding + pt.y * cellSize, cellSize * 0.45, 0, Math.PI * 2);
-            ctx.stroke();
-          }
+          ctx.save(); ctx.strokeStyle = '#f59e0b'; ctx.lineWidth = 3;
+          for (const pt of winLine) { ctx.beginPath(); ctx.arc(padding + pt.x * cellSize, padding + pt.y * cellSize, cellSize * 0.45, 0, Math.PI * 2); ctx.stroke(); }
           ctx.restore();
         }
       }
-
       if (lastMove && !animPiece && winner === 0) {
-        const lx = padding + lastMove.x * cellSize;
-        const ly = padding + lastMove.y * cellSize;
-        ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 2;
-        ctx.strokeRect(lx - 4, ly - 4, 8, 8);
+        const lx = padding + lastMove.x * cellSize, ly = padding + lastMove.y * cellSize;
+        ctx.strokeStyle = '#e11d48'; ctx.lineWidth = 2; ctx.strokeRect(lx - 4, ly - 4, 8, 8);
       }
-
       if (animPiece) {
-        const t = Math.min(1, Math.max(0, (now - animPiece.startTime) / animPiece.duration));
-        const p = easeOutCubic(t);
-        const cx = padding + animPiece.x * cellSize;
-        const cy = padding + animPiece.y * cellSize;
-        const baseR = cellSize * 0.43;
-
+        const t = Math.min(1, Math.max(0, (now - animPiece.startTime) / animPiece.duration)), p = easeOutCubic(t);
+        const cx = padding + animPiece.x * cellSize, cy = padding + animPiece.y * cellSize, baseR = cellSize * 0.43;
         if (t > 0.45) {
           const rt = (t - 0.45) / 0.55;
-          ctx.save();
-          ctx.beginPath();
-          ctx.arc(cx, cy, baseR * (1 + rt * 0.75), 0, Math.PI * 2);
-          ctx.strokeStyle = `rgba(38, 18, 4, ${(1 - rt) * 0.5})`;
-          ctx.lineWidth = 2;
-          ctx.stroke();
-          ctx.restore();
+          ctx.save(); ctx.beginPath(); ctx.arc(cx, cy, baseR * (1 + rt * 0.75), 0, Math.PI * 2);
+          ctx.strokeStyle = `rgba(14, 165, 233, ${(1 - rt) * 0.5})`; ctx.lineWidth = 2; ctx.stroke(); ctx.restore();
         }
-
-        const scale = 1.48 - 0.48 * p;
-        const liftY = -14 * (1 - p);
-        const alpha = 0.35 + 0.65 * p;
-        drawPieceAtPixel(cx, cy + liftY, baseR * scale, animPiece.color, false, alpha, 14 * (1 - p) + 5, 9 * (1 - p) + 2.5);
+        drawPieceAtPixel(cx, cy - 14 * (1 - p), baseR * (1.48 - 0.48 * p), animPiece.color, false, 0.35 + 0.65 * p, 14 * (1 - p) + 5, 9 * (1 - p) + 2.5);
       }
-
-      if (previewPos && canPreview) {
-        drawPiece(previewPos.x, previewPos.y, previewColor, true);
-      }
+      if (previewPos && canPreview) drawPiece(previewPos.x, previewPos.y, previewColor, true);
     }
 
     function drawPiece(x, y, color, isPreview) {
-      const cx = padding + x * cellSize;
-      const cy = padding + y * cellSize;
-      const r = cellSize * 0.43;
-      drawPieceAtPixel(cx, cy, r, color, isPreview, isPreview ? 0.55 : 1, 5, 2.5);
+      drawPieceAtPixel(padding + x * cellSize, padding + y * cellSize, cellSize * 0.43, color, isPreview, isPreview ? 0.55 : 1, 5, 2.5);
     }
 
     function drawPieceAtPixel(cx, cy, r, color, isPreview, alpha, shadowBlur, shadowOffsetY) {
-      ctx.save();
-      ctx.globalAlpha = alpha;
-      ctx.beginPath();
-      ctx.arc(cx, cy, r, 0, Math.PI * 2);
+      ctx.save(); ctx.globalAlpha = alpha; ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2);
       const grad = ctx.createRadialGradient(cx - r * 0.3, cy - r * 0.3, r * 0.06, cx, cy, r);
       if (color === 1) {
-        grad.addColorStop(0, '#57534e');
-        grad.addColorStop(0.38, '#1c1917');
-        grad.addColorStop(1, '#09090b');
+        grad.addColorStop(0, '#64748b'); grad.addColorStop(0.35, '#1e293b'); grad.addColorStop(1, '#020617');
       } else {
-        grad.addColorStop(0, '#ffffff');
-        grad.addColorStop(0.6, '#ece9e1');
-        grad.addColorStop(1, '#c7c1b5');
+        grad.addColorStop(0, '#ffffff'); grad.addColorStop(0.6, '#f1f5f9'); grad.addColorStop(1, '#cbd5e1');
       }
       ctx.fillStyle = grad;
-      ctx.shadowColor = 'rgba(0,0,0,0.55)';
-      ctx.shadowBlur = shadowBlur;
-      ctx.shadowOffsetX = 1.5;
-      ctx.shadowOffsetY = shadowOffsetY;
+      ctx.shadowColor = 'rgba(15, 23, 42, 0.38)'; ctx.shadowBlur = shadowBlur; ctx.shadowOffsetX = 1.5; ctx.shadowOffsetY = shadowOffsetY;
       ctx.fill();
-
-      if (isPreview) {
-        ctx.strokeStyle = '#84cc16'; ctx.lineWidth = 2; ctx.stroke();
-      }
+      if (color === 2) { ctx.strokeStyle = 'rgba(148, 163, 184, 0.5)'; ctx.lineWidth = 0.8; ctx.stroke(); }
+      if (isPreview) { ctx.strokeStyle = '#0ea5e9'; ctx.lineWidth = 2; ctx.stroke(); }
       ctx.restore();
     }
 
     canvas.addEventListener('pointerdown', (e) => {
       let currentBoard = null;
       if (mode === 'online') {
-        if (!onlineState || !onlineState.blackId || !onlineState.whiteId) return;
-        if (onlineState.winner !== 0 || onlineState.turn !== myColor) return;
+        if (!onlineState || !onlineState.blackId || !onlineState.whiteId || onlineState.winner !== 0 || onlineState.turn !== myColor) return;
         currentBoard = onlineState.board;
       } else if (mode === 'ai') {
         if (aiThinking || aiWinner !== 0 || aiTurn !== 1) return;
         currentBoard = aiBoard;
-      } else { return; }
-
+      } else return;
       const rect = canvas.getBoundingClientRect();
-      const x = Math.round((e.clientX - rect.left - padding) / cellSize);
-      const y = Math.round((e.clientY - rect.top - padding) / cellSize);
-
-      if (x < 0 || x >= 15 || y < 0 || y >= 15) return;
-      if (currentBoard[y][x] !== 0) return;
-
+      const x = Math.round((e.clientX - rect.left - padding) / cellSize), y = Math.round((e.clientY - rect.top - padding) / cellSize);
+      if (x < 0 || x >= 15 || y < 0 || y >= 15 || currentBoard[y][x] !== 0) return;
       if (previewPos && previewPos.x === x && previewPos.y === y) {
         if (mode === 'online') { socket.emit('move', { x, y }); previewPos = null; }
-        else { executePlayerAiMove(x, y); }
-      } else {
-        previewPos = { x, y }; updateUI(); drawBoard();
-      }
+        else executePlayerAiMove(x, y);
+      } else { previewPos = { x, y }; updateUI(); drawBoard(); }
     });
 
     confirmBtn.onclick = () => {
       if (!previewPos) return;
       if (mode === 'online') { socket.emit('move', previewPos); previewPos = null; }
-      else if (mode === 'ai') { executePlayerAiMove(previewPos.x, previewPos.y); }
+      else if (mode === 'ai') executePlayerAiMove(previewPos.x, previewPos.y);
     };
 
     undoBtn.onclick = () => {
       if (mode !== 'ai' || aiThinking || aiWinner !== 0 || aiHistory.length < 2) return;
-      if (rafId) cancelAnimationFrame(rafId);
-      animPiece = null;
+      if (rafId) cancelAnimationFrame(rafId); animPiece = null;
       const lastAi = aiHistory.pop(), lastPlayer = aiHistory.pop();
       aiBoard[lastAi.y][lastAi.x] = 0; aiBoard[lastPlayer.y][lastPlayer.x] = 0;
       aiLastMove = aiHistory.length > 0 ? aiHistory[aiHistory.length - 1] : null;
       previewPos = null; updateUI(); drawBoard();
     };
 
-    restartBtn.onclick = () => {
-      if (mode === 'online') socket.emit('restart');
-      else if (mode === 'ai') startAiGame();
-    };
-
+    restartBtn.onclick = () => { if (mode === 'online') socket.emit('restart'); else if (mode === 'ai') startAiGame(); };
     shareBtn.onclick = async () => {
       const url = window.location.href;
       try { await navigator.clipboard.writeText(url); alert('邀请链接已复制！\n' + url); }
       catch { prompt('请长按复制下面链接：', url); }
     };
-
     backBtn.onclick = () => {
-      if (aiTimer) clearTimeout(aiTimer);
-      if (rafId) cancelAnimationFrame(rafId);
-      animPiece = null;
+      if (aiTimer) clearTimeout(aiTimer); if (rafId) cancelAnimationFrame(rafId); animPiece = null;
       if (mode === 'online') window.location.href = window.location.pathname;
       else { mode = ''; gameEl.style.display = 'none'; lobbyEl.style.display = 'flex'; }
     };
