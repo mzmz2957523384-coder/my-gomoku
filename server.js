@@ -177,6 +177,14 @@ io.on('connection', (socket) => {
     room.blackId = room.whiteId; room.whiteId = oldBlack; room.turn = 1; room.winner = 0; room.lastMove = null; room.moveCount = 0;
     io.to(roomId).emit('gameState', room);
   });
+  socket.on('emote', ({ icon, text }) => {
+    const roomId = socket.data.roomId;
+    if (!roomId || !rooms.has(roomId)) return;
+    const cleanIcon = String(icon || '').slice(0, 8);
+    const cleanText = String(text || '').slice(0, 24);
+    if (!cleanIcon) return;
+    io.to(roomId).emit('emote', { fromId: socket.id, icon: cleanIcon, text: cleanText });
+  });
 
   socket.on('ddz:joinRoom', ({ roomId: rawRoomId, name }) => {
     const roomId = String(rawRoomId || '').trim().slice(0, 20);
