@@ -22,17 +22,17 @@
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
-      padding: 8px 10px 24px;
+      padding: 6px 10px 14px;
       touch-action: manipulation;
       overflow-x: hidden;
     }
 
     .nav-tabs {
       display: flex; background: rgba(255, 255, 255, 0.78); backdrop-filter: blur(10px);
-      padding: 3px; border-radius: 12px; width: 100%; max-width: 420px; margin-bottom: 8px;
+      padding: 3px; border-radius: 12px; width: 100%; max-width: 420px; margin-bottom: 6px;
       border: 1px solid rgba(255,255,255,0.95); box-shadow: 0 2px 12px rgba(15, 23, 42, 0.06);
     }
-    .nav-tab { flex: 1; text-align: center; padding: 7px 0; border-radius: 9px; text-decoration: none; font-weight: 700; font-size: 14px; color: #64748b; }
+    .nav-tab { flex: 1; text-align: center; padding: 6px 0; border-radius: 9px; text-decoration: none; font-weight: 700; font-size: 14px; color: #64748b; }
     .nav-tab.active { background: linear-gradient(180deg, #0ea5e9 0%, #0284c7 100%); color: #fff; box-shadow: 0 2px 8px rgba(2, 132, 199, 0.3); }
 
     h1 { margin: 4px 0 12px; font-size: 22px; color: #0f172a; letter-spacing: 4px; font-weight: 800; }
@@ -66,36 +66,79 @@
     #game { display: none; flex-direction: column; align-items: center; width: 100%; max-width: 500px; }
     .info-bar {
       width: 100%; display: flex; justify-content: space-between; align-items: center;
-      background: rgba(255, 255, 255, 0.9); border: 1px solid #fff; padding: 9px 14px;
-      border-radius: 12px; margin-bottom: 8px; font-size: 14px; font-weight: 600; color: #334155;
-      box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
+      background: rgba(255, 255, 255, 0.9); border: 1px solid #fff; padding: 6px 12px;
+      border-radius: 10px; margin-bottom: 6px; font-size: 13px; font-weight: 600; color: #334155;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
     }
 
     .score-bar {
       width: 100%; display: flex; align-items: center; justify-content: space-around;
-      background: rgba(255, 255, 255, 0.9); border: 1px solid #fff; padding: 7px 10px;
-      border-radius: 12px; margin-bottom: 8px; box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
+      background: rgba(255, 255, 255, 0.9); border: 1px solid #fff; padding: 5px 10px;
+      border-radius: 10px; margin-bottom: 6px; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
     }
     .score-item { display: flex; flex-direction: column; align-items: center; flex: 1; }
     .score-label { font-size: 11px; color: #64748b; font-weight: 600; }
-    .score-num { font-size: 20px; font-weight: 800; color: #0f172a; line-height: 1.2; }
+    .score-num { font-size: 18px; font-weight: 800; color: #0f172a; line-height: 1.15; }
     .score-win .score-num { color: #059669; }
     .score-lose .score-num { color: #e11d48; }
-    .score-divider { width: 1px; height: 26px; background: #e2e8f0; }
-    #resetScoreBtn { background: #f1f5f9; color: #475569; font-size: 12px; padding: 5px 8px; border-radius: 8px; margin-left: 4px; display: none; }
+    .score-divider { width: 1px; height: 22px; background: #e2e8f0; }
+    #resetScoreBtn { background: #f1f5f9; color: #475569; font-size: 11px; padding: 4px 8px; border-radius: 8px; margin-left: 4px; display: none; }
 
     .status-banner {
-      width: 100%; text-align: center; padding: 8px 12px; border-radius: 20px; font-weight: 700; font-size: 14px;
-      margin-bottom: 10px; background: rgba(255, 255, 255, 0.9); color: #475569; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+      width: 100%; text-align: center; padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 13px;
+      margin-bottom: 6px; background: rgba(255, 255, 255, 0.9); color: #475569; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
     }
-    .status-my-turn { background: linear-gradient(90deg, #10b981, #059669); color: #fff; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35); }
-    .status-win { background: linear-gradient(90deg, #f59e0b, #d97706); color: #fff; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4); }
+    .status-my-turn { background: linear-gradient(90deg, #10b981, #059669); color: #fff; box-shadow: 0 3px 10px rgba(16, 185, 129, 0.35); }
+    .status-win { background: linear-gradient(90deg, #f59e0b, #d97706); color: #fff; box-shadow: 0 3px 10px rgba(245, 158, 11, 0.4); }
+
+    /* 棋盘正上方的单行快捷表情条（不用往下滑，单手秒点） */
+    .emote-quick-bar {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.88);
+      border: 1px solid #fff;
+      border-radius: 14px;
+      padding: 4px 6px;
+      margin-bottom: 8px;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+    }
+    .emote-all-btn {
+      flex-shrink: 0;
+      background: linear-gradient(180deg, #fbbf24, #d97706);
+      color: #fff;
+      padding: 5px 10px;
+      font-size: 12px;
+      border-radius: 10px;
+    }
+    .emote-strip {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      flex: 1;
+    }
+    .emote-strip::-webkit-scrollbar { display: none; }
+    .emote-quick-chip {
+      flex-shrink: 0;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 9px;
+      padding: 3px 7px;
+      font-size: 20px;
+      line-height: 1.2;
+      cursor: pointer;
+    }
+    .emote-quick-chip:active { background: #fef3c7; border-color: #f59e0b; transform: scale(0.9); }
 
     .board-frame {
       position: relative;
-      padding: 7px; background: linear-gradient(145deg, #f1f5f9, #cbd5e1);
+      padding: 6px; background: linear-gradient(145deg, #f1f5f9, #cbd5e1);
       border-radius: 14px; border: 1px solid #fff;
-      box-shadow: 0 14px 32px rgba(15, 23, 42, 0.16), 0 5px 0 #94a3b8;
+      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.16), 0 4px 0 #94a3b8;
     }
     canvas { display: block; border-radius: 8px; touch-action: none; }
 
@@ -103,12 +146,12 @@
     .emote-toast {
       position: absolute;
       left: 50%;
-      top: 16px;
+      top: 14px;
       transform: translateX(-50%);
       background: rgba(255, 255, 255, 0.96);
       border: 2px solid #f59e0b;
       border-radius: 24px;
-      padding: 8px 16px;
+      padding: 7px 14px;
       display: none;
       align-items: center;
       gap: 8px;
@@ -122,30 +165,51 @@
       0% { transform: translateX(-50%) scale(0.5) translateY(14px); opacity: 0; }
       100% { transform: translateX(-50%) scale(1) translateY(0); opacity: 1; }
     }
-    .emote-toast-icon { font-size: 32px; line-height: 1; }
+    .emote-toast-icon { font-size: 30px; line-height: 1; }
     .emote-toast-body { display: flex; flex-direction: column; }
     .emote-toast-who { font-size: 11px; color: #d97706; font-weight: 800; }
     .emote-toast-text { font-size: 14px; color: #0f172a; font-weight: 700; }
 
-    .controls { width: 100%; margin-top: 16px; display: flex; flex-wrap: wrap; gap: 8px; }
-    .controls button { flex: 1; min-width: 95px; padding: 11px 10px; font-size: 14px; border-radius: 20px; box-shadow: 0 3px 10px rgba(15, 23, 42, 0.1); }
+    .controls { width: 100%; margin-top: 12px; display: flex; flex-wrap: wrap; gap: 8px; }
+    .controls button { flex: 1; min-width: 95px; padding: 10px 10px; font-size: 14px; border-radius: 20px; box-shadow: 0 3px 10px rgba(15, 23, 42, 0.1); }
     #confirmBtn { background: linear-gradient(180deg, #10b981, #059669); color: #fff; flex: 2; min-width: 140px; display: none; }
     #undoBtn { background: #475569; color: #fff; display: none; }
     #restartBtn { background: linear-gradient(180deg, #f59e0b, #d97706); color: #fff; display: none; }
-    #emoteBtn { background: linear-gradient(180deg, #fbbf24, #d97706); color: #fff; }
     #shareBtn { background: linear-gradient(180deg, #0ea5e9, #0284c7); color: #fff; display: none; }
     #backBtn { background: rgba(255,255,255,0.92); color: #334155; }
 
-    /* 嘲讽表情选择抽屉 */
-    .emote-drawer {
+    /* 屏幕居中悬浮的表情词库弹窗（不需滑动页面） */
+    .emote-modal-mask {
       display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.45);
+      align-items: center;
+      justify-content: center;
+      padding: 14px;
+      z-index: 99;
+    }
+    .emote-modal-box {
+      background: #fff;
       width: 100%;
-      margin-top: 10px;
-      background: rgba(255, 255, 255, 0.95);
-      border: 1px solid #fff;
-      border-radius: 16px;
-      padding: 10px;
-      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+      max-width: 360px;
+      max-height: 82vh;
+      overflow-y: auto;
+      border-radius: 18px;
+      padding: 14px;
+      box-shadow: 0 14px 36px rgba(15, 23, 42, 0.25);
+    }
+    .emote-modal-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      font-weight: 800;
+      font-size: 15px;
+      color: #0f172a;
+    }
+    .emote-grid {
+      display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 6px;
     }
@@ -164,7 +228,7 @@
     .emote-item-icon { font-size: 24px; line-height: 1.1; }
     .emote-item-text { font-size: 11px; color: #475569; font-weight: 600; text-align: center; }
 
-    .tip { font-size: 12px; color: #64748b; margin-top: 10px; text-align: center; }
+    .tip { font-size: 11px; color: #64748b; margin-top: 8px; text-align: center; }
   </style>
 </head>
 <body>
@@ -173,7 +237,7 @@
     <a href="/doudizhu.html" class="nav-tab">🃏 斗地主</a>
   </div>
 
-  <h1>五 子 棋</h1>
+  <h1 id="mainTitle">五 子 棋</h1>
 
   <div id="lobby">
     <div class="card invite-highlight" id="inviteCard" style="display:none;">
@@ -228,6 +292,12 @@
 
     <div class="status-banner" id="statusBanner">准备中...</div>
 
+    <!-- 棋盘正上方的快捷表情栏 -->
+    <div class="emote-quick-bar">
+      <button class="emote-all-btn" id="emoteAllBtn">😈 全部</button>
+      <div class="emote-strip" id="emoteStrip"></div>
+    </div>
+
     <div class="board-frame">
       <div class="emote-toast" id="emoteToast">
         <span class="emote-toast-icon" id="toastIcon">😏</span>
@@ -243,19 +313,28 @@
       <button id="confirmBtn">确认落子</button>
       <button id="undoBtn">悔棋</button>
       <button id="restartBtn">再来一局</button>
-      <button id="emoteBtn">😏 表情</button>
       <button id="shareBtn">复制邀请</button>
       <button id="backBtn">返回主页</button>
     </div>
 
-    <div class="emote-drawer" id="emoteDrawer"></div>
+    <div class="tip">提示：点棋盘预览落子，点上方表情可直接嘲讽对手</div>
+  </div>
 
-    <div class="tip">提示：点棋盘可先预览位置，再点一次同位置或点“确认落子”</div>
+  <!-- 悬浮居中表情弹窗 -->
+  <div class="emote-modal-mask" id="emoteModal">
+    <div class="emote-modal-box">
+      <div class="emote-modal-head">
+        <span>😈 选择嘲讽表情</span>
+        <button id="closeEmoteModal" style="padding:4px 10px; font-size:12px; background:#f1f5f9; color:#475569;">关闭</button>
+      </div>
+      <div class="emote-grid" id="emoteGrid"></div>
+    </div>
   </div>
 
   <script src="/socket.io/socket.io.js"></script>
   <script>
     const socket = io();
+    const mainTitle = document.getElementById('mainTitle');
     const lobbyEl = document.getElementById('lobby');
     const gameEl = document.getElementById('game');
     const inviteCard = document.getElementById('inviteCard');
@@ -280,8 +359,11 @@
     const confirmBtn = document.getElementById('confirmBtn');
     const undoBtn = document.getElementById('undoBtn');
     const restartBtn = document.getElementById('restartBtn');
-    const emoteBtn = document.getElementById('emoteBtn');
-    const emoteDrawer = document.getElementById('emoteDrawer');
+    const emoteAllBtn = document.getElementById('emoteAllBtn');
+    const emoteStrip = document.getElementById('emoteStrip');
+    const emoteModal = document.getElementById('emoteModal');
+    const emoteGrid = document.getElementById('emoteGrid');
+    const closeEmoteModal = document.getElementById('closeEmoteModal');
     const emoteToast = document.getElementById('emoteToast');
     const toastIcon = document.getElementById('toastIcon');
     const toastWho = document.getElementById('toastWho');
@@ -291,24 +373,24 @@
     const canvas = document.getElementById('board');
     const ctx = canvas.getContext('2d');
 
-    // 21 个全设备通用嘲讽黄脸表情包与手势（含中指）
+    // 最常用的放最前面，不用滑动直接就能点
     const EMOTES = [
       { icon: '😏', text: '这步棋稳了' },
+      { icon: '🖕', text: '国际友好手势' },
       { icon: '🤪', text: '略略略，堵不到' },
-      { icon: '😜', text: '不小心连四个了' },
-      { icon: '🤭', text: '嘻嘻，中计了吧' },
+      { icon: '🤡', text: '小丑竟是你自己' },
       { icon: '🙄', text: '快点呀，等花谢了' },
       { icon: '🥱', text: '好困，还没想好吗' },
+      { icon: '👏', text: '妙啊！给你鼓掌' },
       { icon: '😎', text: '拿捏，毫无压力' },
+      { icon: '🤏', text: '就差那么一点点' },
+      { icon: '👎', text: '这步棋太臭了' },
+      { icon: '🤭', text: '嘻嘻，中计了吧' },
+      { icon: '😜', text: '不小心连四个了' },
       { icon: '🤔', text: '就这？下啥呢' },
-      { icon: '🤡', text: '小丑竟是你自己' },
       { icon: '🥳', text: '提前开香槟咯' },
       { icon: '😤', text: '放马过来吧' },
       { icon: '🥺', text: '求大哥手下留情' },
-      { icon: '🖕', text: '国际友好手势' },
-      { icon: '🤏', text: '就差那么一点点' },
-      { icon: '👎', text: '这步棋太臭了' },
-      { icon: '👏', text: '妙啊！给你鼓掌' },
       { icon: '👉', text: '就是你，别跑' },
       { icon: '👊', text: '吃我一拳' },
       { icon: '✌️', text: '轻松拿下' },
@@ -323,50 +405,58 @@
       toastIcon.textContent = icon;
       toastText.textContent = text;
       emoteToast.style.display = 'none';
-      void emoteToast.offsetWidth; // 触发重新播放弹跳动画
+      void emoteToast.offsetWidth;
       emoteToast.style.display = 'flex';
       toastTimer = setTimeout(() => { emoteToast.style.display = 'none'; }, 2400);
     }
 
-    // 渲染表情选择网格
+    function sendEmote(em) {
+      const now = Date.now();
+      if (now - lastEmoteTime < 900) return;
+      lastEmoteTime = now;
+      emoteModal.style.display = 'none';
+      if (mode === 'online') {
+        socket.emit('emote', em);
+      } else if (mode === 'ai') {
+        showEmoteToast('你发出了:', em.icon, em.text);
+        setTimeout(() => {
+          if (mode !== 'ai') return;
+          const aiReplies = [
+            { icon: '🤖', text: '别闹，认真下棋' },
+            { icon: '😏', text: '就这？我算好了' },
+            { icon: '🤡', text: '等会别哭哦' },
+            { icon: '🥱', text: '你尽管下，赢算我输' },
+            { icon: '🖕', text: 'AI 表示不服' }
+          ];
+          const pick = aiReplies[Math.floor(Math.random() * aiReplies.length)];
+          showEmoteToast('AI 回敬:', pick.icon, pick.text);
+        }, 650);
+      }
+    }
+
+    // 填充上方单行快捷条 + 居中弹窗网格
     EMOTES.forEach(em => {
-      const btn = document.createElement('div');
-      btn.className = 'emote-item';
-      btn.innerHTML = `<span class="emote-item-icon">${em.icon}</span><span class="emote-item-text">${em.text}</span>`;
-      btn.onclick = () => {
-        const now = Date.now();
-        if (now - lastEmoteTime < 900) return;
-        lastEmoteTime = now;
-        emoteDrawer.style.display = 'none';
-        if (mode === 'online') {
-          socket.emit('emote', em);
-        } else if (mode === 'ai') {
-          showEmoteToast('你发出了:', em.icon, em.text);
-          setTimeout(() => {
-            if (mode !== 'ai') return;
-            const aiReplies = [
-              { icon: '🤖', text: '别闹，认真下棋' },
-              { icon: '😏', text: '就这？我算好了' },
-              { icon: '🤡', text: '等会别哭哦' },
-              { icon: '🥱', text: '你尽管下，赢算我输' },
-              { icon: '🖕', text: 'AI 表示不服' }
-            ];
-            const pick = aiReplies[Math.floor(Math.random() * aiReplies.length)];
-            showEmoteToast('AI 回敬:', pick.icon, pick.text);
-          }, 650);
-        }
-      };
-      emoteDrawer.appendChild(btn);
+      const chip = document.createElement('button');
+      chip.className = 'emote-quick-chip';
+      chip.textContent = em.icon;
+      chip.title = em.text;
+      chip.onclick = () => sendEmote(em);
+      emoteStrip.appendChild(chip);
+
+      const item = document.createElement('div');
+      item.className = 'emote-item';
+      item.innerHTML = `<span class="emote-item-icon">${em.icon}</span><span class="emote-item-text">${em.text}</span>`;
+      item.onclick = () => sendEmote(em);
+      emoteGrid.appendChild(item);
     });
 
-    emoteBtn.onclick = () => {
-      emoteDrawer.style.display = (emoteDrawer.style.display === 'grid') ? 'none' : 'grid';
-    };
+    emoteAllBtn.onclick = () => { emoteModal.style.display = 'flex'; };
+    closeEmoteModal.onclick = () => { emoteModal.style.display = 'none'; };
+    emoteModal.onclick = (e) => { if (e.target === emoteModal) emoteModal.style.display = 'none'; };
 
     socket.on('emote', ({ fromId, icon, text }) => {
       if (mode !== 'online') return;
-      const who = (fromId === socket.id) ? '你发出了:' : '对手嘲讽你:';
-      showEmoteToast(who, icon, text);
+      showEmoteToast(fromId === socket.id ? '你发出了:' : '对手嘲讽你:', icon, text);
     });
 
     let mode = '', previewPos = null, onlineState = null, myColor = 0, lastOnlineMoveCount = 0;
@@ -385,7 +475,7 @@
     }
 
     let boardBgCanvas = document.createElement('canvas');
-    let boardPx = 350, padding = 18, cellSize = 23;
+    let boardPx = 340, padding = 18, cellSize = 22;
 
     function buildMarbleBoard(size, dpr) {
       boardBgCanvas.width = size * dpr; boardBgCanvas.height = size * dpr;
@@ -441,7 +531,7 @@
 
     function resizeCanvas() {
       const dpr = window.devicePixelRatio || 1;
-      boardPx = Math.min(window.innerWidth - 34, 450);
+      boardPx = Math.min(window.innerWidth - 34, 420);
       padding = boardPx * 0.055; cellSize = (boardPx - padding * 2) / 14;
       canvas.style.width = boardPx + 'px'; canvas.style.height = boardPx + 'px';
       canvas.width = boardPx * dpr; canvas.height = boardPx * dpr;
@@ -470,7 +560,7 @@
 
     socket.on('errorMsg', (msg) => alert(msg));
     socket.on('joined', ({ roomId }) => {
-      mode = 'online'; lobbyEl.style.display = 'none'; gameEl.style.display = 'flex';
+      mode = 'online'; mainTitle.style.display = 'none'; lobbyEl.style.display = 'none'; gameEl.style.display = 'flex';
       roomLabel.textContent = `房间: ${roomId}`;
       window.history.replaceState({}, '', `${window.location.pathname}?room=${encodeURIComponent(roomId)}`);
       resizeCanvas();
@@ -496,7 +586,7 @@
       animPiece = null; mode = 'ai'; aiBoard = createEmptyBoard();
       aiTurn = 1; aiWinner = 0; aiLastMove = null; aiHistory = []; aiThinking = false; previewPos = null;
       const diffNames = { easy: '入门', medium: '普通', hard: '高手' };
-      lobbyEl.style.display = 'none'; gameEl.style.display = 'flex';
+      mainTitle.style.display = 'none'; lobbyEl.style.display = 'none'; gameEl.style.display = 'flex';
       roomLabel.textContent = `AI模式 (${diffNames[aiDiff]})`; roleLabel.textContent = '你是: ⚫ 黑棋';
       resizeCanvas(); updateUI();
     }
@@ -733,7 +823,8 @@
     };
     backBtn.onclick = () => {
       if (aiTimer) clearTimeout(aiTimer); if (rafId) cancelAnimationFrame(rafId); animPiece = null;
-      emoteDrawer.style.display = 'none';
+      emoteModal.style.display = 'none';
+      mainTitle.style.display = 'block';
       if (mode === 'online') window.location.href = window.location.pathname;
       else { mode = ''; gameEl.style.display = 'none'; lobbyEl.style.display = 'flex'; }
     };
