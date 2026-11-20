@@ -28,44 +28,19 @@
     }
 
     .nav-tabs {
-      display: flex;
-      background: rgba(255, 255, 255, 0.78);
-      backdrop-filter: blur(10px);
-      padding: 3px;
-      border-radius: 12px;
-      width: 100%;
-      max-width: 420px;
-      margin-bottom: 8px;
-      border: 1px solid rgba(255,255,255,0.95);
-      box-shadow: 0 2px 12px rgba(15, 23, 42, 0.06);
+      display: flex; background: rgba(255, 255, 255, 0.78); backdrop-filter: blur(10px);
+      padding: 3px; border-radius: 12px; width: 100%; max-width: 420px; margin-bottom: 8px;
+      border: 1px solid rgba(255,255,255,0.95); box-shadow: 0 2px 12px rgba(15, 23, 42, 0.06);
     }
-    .nav-tab {
-      flex: 1;
-      text-align: center;
-      padding: 7px 0;
-      border-radius: 9px;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 14px;
-      color: #64748b;
-    }
-    .nav-tab.active {
-      background: linear-gradient(180deg, #0ea5e9 0%, #0284c7 100%);
-      color: #fff;
-      box-shadow: 0 2px 8px rgba(2, 132, 199, 0.3);
-    }
+    .nav-tab { flex: 1; text-align: center; padding: 7px 0; border-radius: 9px; text-decoration: none; font-weight: 700; font-size: 14px; color: #64748b; }
+    .nav-tab.active { background: linear-gradient(180deg, #0ea5e9 0%, #0284c7 100%); color: #fff; box-shadow: 0 2px 8px rgba(2, 132, 199, 0.3); }
 
     h1 { margin: 4px 0 12px; font-size: 22px; color: #0f172a; letter-spacing: 4px; font-weight: 800; }
 
     #lobby { width: 100%; max-width: 390px; display: flex; flex-direction: column; gap: 14px; }
     .card {
-      background: rgba(255, 255, 255, 0.92);
-      border: 1px solid #fff;
-      color: #1e293b;
-      padding: 20px 18px;
-      border-radius: 18px;
-      box-shadow: 0 8px 28px rgba(15, 23, 42, 0.08);
-      backdrop-filter: blur(8px);
+      background: rgba(255, 255, 255, 0.92); border: 1px solid #fff; color: #1e293b;
+      padding: 20px 18px; border-radius: 18px; box-shadow: 0 8px 28px rgba(15, 23, 42, 0.08); backdrop-filter: blur(8px);
     }
     .card-title { font-size: 17px; font-weight: 700; margin: 0 0 6px; color: #0f172a; }
     .card-desc { font-size: 13px; color: #64748b; margin: 0 0 14px; }
@@ -79,10 +54,7 @@
     input[type="text"]:focus { border-color: #0ea5e9; background: #fff; }
 
     .diff-group { display: flex; gap: 8px; margin-bottom: 12px; }
-    .diff-btn {
-      flex: 1; padding: 9px 6px; font-size: 14px; background: #f1f5f9; color: #475569;
-      border: 1.5px solid #e2e8f0; border-radius: 10px; font-weight: 600; cursor: pointer;
-    }
+    .diff-btn { flex: 1; padding: 9px 6px; font-size: 14px; background: #f1f5f9; color: #475569; border: 1.5px solid #e2e8f0; border-radius: 10px; font-weight: 600; cursor: pointer; }
     .diff-btn.active { background: #e0f2fe; color: #0369a1; border-color: #0ea5e9; }
 
     button { border: none; border-radius: 10px; padding: 12px 16px; font-size: 15px; font-weight: 700; cursor: pointer; transition: opacity 0.15s, transform 0.1s; }
@@ -120,19 +92,77 @@
     .status-win { background: linear-gradient(90deg, #f59e0b, #d97706); color: #fff; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4); }
 
     .board-frame {
+      position: relative;
       padding: 7px; background: linear-gradient(145deg, #f1f5f9, #cbd5e1);
       border-radius: 14px; border: 1px solid #fff;
       box-shadow: 0 14px 32px rgba(15, 23, 42, 0.16), 0 5px 0 #94a3b8;
     }
     canvas { display: block; border-radius: 8px; touch-action: none; }
 
+    /* 飘浮嘲讽表情气泡 */
+    .emote-toast {
+      position: absolute;
+      left: 50%;
+      top: 16px;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.96);
+      border: 2px solid #f59e0b;
+      border-radius: 24px;
+      padding: 8px 16px;
+      display: none;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.25);
+      pointer-events: none;
+      z-index: 20;
+      white-space: nowrap;
+      animation: emotePop 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    @keyframes emotePop {
+      0% { transform: translateX(-50%) scale(0.5) translateY(14px); opacity: 0; }
+      100% { transform: translateX(-50%) scale(1) translateY(0); opacity: 1; }
+    }
+    .emote-toast-icon { font-size: 32px; line-height: 1; }
+    .emote-toast-body { display: flex; flex-direction: column; }
+    .emote-toast-who { font-size: 11px; color: #d97706; font-weight: 800; }
+    .emote-toast-text { font-size: 14px; color: #0f172a; font-weight: 700; }
+
     .controls { width: 100%; margin-top: 16px; display: flex; flex-wrap: wrap; gap: 8px; }
-    .controls button { flex: 1; min-width: 105px; padding: 11px 10px; font-size: 14px; border-radius: 20px; box-shadow: 0 3px 10px rgba(15, 23, 42, 0.1); }
-    #confirmBtn { background: linear-gradient(180deg, #10b981, #059669); color: #fff; flex: 2; min-width: 150px; display: none; }
+    .controls button { flex: 1; min-width: 95px; padding: 11px 10px; font-size: 14px; border-radius: 20px; box-shadow: 0 3px 10px rgba(15, 23, 42, 0.1); }
+    #confirmBtn { background: linear-gradient(180deg, #10b981, #059669); color: #fff; flex: 2; min-width: 140px; display: none; }
     #undoBtn { background: #475569; color: #fff; display: none; }
     #restartBtn { background: linear-gradient(180deg, #f59e0b, #d97706); color: #fff; display: none; }
+    #emoteBtn { background: linear-gradient(180deg, #fbbf24, #d97706); color: #fff; }
     #shareBtn { background: linear-gradient(180deg, #0ea5e9, #0284c7); color: #fff; display: none; }
     #backBtn { background: rgba(255,255,255,0.92); color: #334155; }
+
+    /* 嘲讽表情选择抽屉 */
+    .emote-drawer {
+      display: none;
+      width: 100%;
+      margin-top: 10px;
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid #fff;
+      border-radius: 16px;
+      padding: 10px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+    }
+    .emote-item {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 6px 4px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      cursor: pointer;
+    }
+    .emote-item:active { background: #fef3c7; border-color: #f59e0b; transform: scale(0.95); }
+    .emote-item-icon { font-size: 24px; line-height: 1.1; }
+    .emote-item-text { font-size: 11px; color: #475569; font-weight: 600; text-align: center; }
 
     .tip { font-size: 12px; color: #64748b; margin-top: 10px; text-align: center; }
   </style>
@@ -199,6 +229,13 @@
     <div class="status-banner" id="statusBanner">准备中...</div>
 
     <div class="board-frame">
+      <div class="emote-toast" id="emoteToast">
+        <span class="emote-toast-icon" id="toastIcon">😏</span>
+        <div class="emote-toast-body">
+          <span class="emote-toast-who" id="toastWho">对手说:</span>
+          <span class="emote-toast-text" id="toastText">这步棋稳了</span>
+        </div>
+      </div>
       <canvas id="board"></canvas>
     </div>
 
@@ -206,9 +243,13 @@
       <button id="confirmBtn">确认落子</button>
       <button id="undoBtn">悔棋</button>
       <button id="restartBtn">再来一局</button>
-      <button id="shareBtn">复制邀请链接</button>
+      <button id="emoteBtn">😏 表情</button>
+      <button id="shareBtn">复制邀请</button>
       <button id="backBtn">返回主页</button>
     </div>
+
+    <div class="emote-drawer" id="emoteDrawer"></div>
+
     <div class="tip">提示：点棋盘可先预览位置，再点一次同位置或点“确认落子”</div>
   </div>
 
@@ -239,10 +280,94 @@
     const confirmBtn = document.getElementById('confirmBtn');
     const undoBtn = document.getElementById('undoBtn');
     const restartBtn = document.getElementById('restartBtn');
+    const emoteBtn = document.getElementById('emoteBtn');
+    const emoteDrawer = document.getElementById('emoteDrawer');
+    const emoteToast = document.getElementById('emoteToast');
+    const toastIcon = document.getElementById('toastIcon');
+    const toastWho = document.getElementById('toastWho');
+    const toastText = document.getElementById('toastText');
     const shareBtn = document.getElementById('shareBtn');
     const backBtn = document.getElementById('backBtn');
     const canvas = document.getElementById('board');
     const ctx = canvas.getContext('2d');
+
+    // 21 个全设备通用嘲讽黄脸表情包与手势（含中指）
+    const EMOTES = [
+      { icon: '😏', text: '这步棋稳了' },
+      { icon: '🤪', text: '略略略，堵不到' },
+      { icon: '😜', text: '不小心连四个了' },
+      { icon: '🤭', text: '嘻嘻，中计了吧' },
+      { icon: '🙄', text: '快点呀，等花谢了' },
+      { icon: '🥱', text: '好困，还没想好吗' },
+      { icon: '😎', text: '拿捏，毫无压力' },
+      { icon: '🤔', text: '就这？下啥呢' },
+      { icon: '🤡', text: '小丑竟是你自己' },
+      { icon: '🥳', text: '提前开香槟咯' },
+      { icon: '😤', text: '放马过来吧' },
+      { icon: '🥺', text: '求大哥手下留情' },
+      { icon: '🖕', text: '国际友好手势' },
+      { icon: '🤏', text: '就差那么一点点' },
+      { icon: '👎', text: '这步棋太臭了' },
+      { icon: '👏', text: '妙啊！给你鼓掌' },
+      { icon: '👉', text: '就是你，别跑' },
+      { icon: '👊', text: '吃我一拳' },
+      { icon: '✌️', text: '轻松拿下' },
+      { icon: '👌', text: '收到，送你走' },
+      { icon: '👋', text: '承让了，拜拜' }
+    ];
+
+    let toastTimer = null, lastEmoteTime = 0;
+    function showEmoteToast(who, icon, text) {
+      if (toastTimer) clearTimeout(toastTimer);
+      toastWho.textContent = who;
+      toastIcon.textContent = icon;
+      toastText.textContent = text;
+      emoteToast.style.display = 'none';
+      void emoteToast.offsetWidth; // 触发重新播放弹跳动画
+      emoteToast.style.display = 'flex';
+      toastTimer = setTimeout(() => { emoteToast.style.display = 'none'; }, 2400);
+    }
+
+    // 渲染表情选择网格
+    EMOTES.forEach(em => {
+      const btn = document.createElement('div');
+      btn.className = 'emote-item';
+      btn.innerHTML = `<span class="emote-item-icon">${em.icon}</span><span class="emote-item-text">${em.text}</span>`;
+      btn.onclick = () => {
+        const now = Date.now();
+        if (now - lastEmoteTime < 900) return;
+        lastEmoteTime = now;
+        emoteDrawer.style.display = 'none';
+        if (mode === 'online') {
+          socket.emit('emote', em);
+        } else if (mode === 'ai') {
+          showEmoteToast('你发出了:', em.icon, em.text);
+          setTimeout(() => {
+            if (mode !== 'ai') return;
+            const aiReplies = [
+              { icon: '🤖', text: '别闹，认真下棋' },
+              { icon: '😏', text: '就这？我算好了' },
+              { icon: '🤡', text: '等会别哭哦' },
+              { icon: '🥱', text: '你尽管下，赢算我输' },
+              { icon: '🖕', text: 'AI 表示不服' }
+            ];
+            const pick = aiReplies[Math.floor(Math.random() * aiReplies.length)];
+            showEmoteToast('AI 回敬:', pick.icon, pick.text);
+          }, 650);
+        }
+      };
+      emoteDrawer.appendChild(btn);
+    });
+
+    emoteBtn.onclick = () => {
+      emoteDrawer.style.display = (emoteDrawer.style.display === 'grid') ? 'none' : 'grid';
+    };
+
+    socket.on('emote', ({ fromId, icon, text }) => {
+      if (mode !== 'online') return;
+      const who = (fromId === socket.id) ? '你发出了:' : '对手嘲讽你:';
+      showEmoteToast(who, icon, text);
+    });
 
     let mode = '', previewPos = null, onlineState = null, myColor = 0, lastOnlineMoveCount = 0;
     let aiDiff = 'medium', aiBoard = [], aiTurn = 1, aiWinner = 0, aiLastMove = null, aiHistory = [], aiThinking = false, aiTimer = null;
@@ -263,50 +388,37 @@
     let boardPx = 350, padding = 18, cellSize = 23;
 
     function buildMarbleBoard(size, dpr) {
-      boardBgCanvas.width = size * dpr;
-      boardBgCanvas.height = size * dpr;
+      boardBgCanvas.width = size * dpr; boardBgCanvas.height = size * dpr;
       const bctx = boardBgCanvas.getContext('2d');
       bctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       const rand = makeRng(202611);
-
       const base = bctx.createLinearGradient(0, 0, size, size);
-      base.addColorStop(0, '#fcfdfc');
-      base.addColorStop(0.5, '#f2f6f5');
-      base.addColorStop(1, '#e6eeec');
-      bctx.fillStyle = base;
-      bctx.fillRect(0, 0, size, size);
-
+      base.addColorStop(0, '#fcfdfc'); base.addColorStop(0.5, '#f2f6f5'); base.addColorStop(1, '#e6eeec');
+      bctx.fillStyle = base; bctx.fillRect(0, 0, size, size);
       for (let i = 0; i < 14; i++) {
         const rx = rand() * size, ry = rand() * size, rad = size * (0.2 + rand() * 0.3);
         const cloud = bctx.createRadialGradient(rx, ry, 2, rx, ry, rad);
         cloud.addColorStop(0, rand() > 0.5 ? 'rgba(148, 163, 184, 0.08)' : 'rgba(204, 232, 226, 0.14)');
         cloud.addColorStop(1, 'rgba(255, 255, 255, 0)');
-        bctx.fillStyle = cloud;
-        bctx.fillRect(0, 0, size, size);
+        bctx.fillStyle = cloud; bctx.fillRect(0, 0, size, size);
       }
-
       for (let v = 0; v < 7; v++) {
         let vx = rand() * size, vy = rand() * size, ang = rand() * Math.PI * 2;
         bctx.beginPath(); bctx.moveTo(vx, vy);
-        const steps = 30 + Math.floor(rand() * 35);
-        for (let i = 0; i < steps; i++) {
-          ang += (rand() - 0.5) * 0.45;
-          vx += Math.cos(ang) * 8; vy += Math.sin(ang) * 8;
-          bctx.lineTo(vx, vy);
+        for (let i = 0; i < 30 + Math.floor(rand() * 35); i++) {
+          ang += (rand() - 0.5) * 0.45; vx += Math.cos(ang) * 8; vy += Math.sin(ang) * 8; bctx.lineTo(vx, vy);
         }
         bctx.strokeStyle = v % 2 === 0 ? 'rgba(100, 116, 139, 0.1)' : 'rgba(14, 116, 144, 0.07)';
         bctx.lineWidth = 0.8 + rand() * 1.8; bctx.stroke();
       }
-
       bctx.strokeStyle = 'rgba(51, 65, 85, 0.72)'; bctx.lineWidth = 1;
       for (let i = 0; i < 15; i++) {
         const pos = padding + i * cellSize;
         bctx.beginPath(); bctx.moveTo(padding, pos); bctx.lineTo(size - padding, pos); bctx.stroke();
         bctx.beginPath(); bctx.moveTo(pos, padding); bctx.lineTo(pos, size - padding); bctx.stroke();
       }
-      const stars = [[3,3], [11,3], [7,7], [3,11], [11,11]];
       bctx.fillStyle = 'rgba(30, 41, 59, 0.82)';
-      for (const [sx, sy] of stars) {
+      for (const [sx, sy] of [[3,3], [11,3], [7,7], [3,11], [11,11]]) {
         bctx.beginPath(); bctx.arc(padding + sx * cellSize, padding + sy * cellSize, 3.2, 0, Math.PI * 2); bctx.fill();
       }
     }
@@ -498,7 +610,7 @@
         myScoreNum.textContent = (onlineState.scores && onlineState.scores[socket.id]) || 0;
         drawScoreNum.textContent = onlineState.draws || 0;
         oppScoreNum.textContent = (oppId && onlineState.scores && onlineState.scores[oppId]) || 0;
-        if (!onlineState.blackId || !onlineState.whiteId) { statusBanner.textContent = '等待朋友加入房间...（点击下方复制链接）'; return; }
+        if (!onlineState.blackId || !onlineState.whiteId) { statusBanner.textContent = '等待朋友加入房间...（点击下方复制邀请）'; return; }
         if (onlineState.winner !== 0) {
           statusBanner.classList.add('status-win');
           statusBanner.textContent = onlineState.winner === 3 ? '平局！棋盘已满' : (onlineState.winner === myColor ? '🎉 恭喜你赢了！' : '😢 你输了，再接再厉！');
@@ -621,6 +733,7 @@
     };
     backBtn.onclick = () => {
       if (aiTimer) clearTimeout(aiTimer); if (rafId) cancelAnimationFrame(rafId); animPiece = null;
+      emoteDrawer.style.display = 'none';
       if (mode === 'online') window.location.href = window.location.pathname;
       else { mode = ''; gameEl.style.display = 'none'; lobbyEl.style.display = 'flex'; }
     };
