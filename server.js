@@ -12,6 +12,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // ==================== 一、五子棋房间逻辑 ====================
 const rooms = new Map();
+const ALLOWED_REACTIONS = new Set([
+  '😏', '🤭', '😎', '🙃', '😂', '😜',
+  '🤨', '🥱', '😁', '😝', '🥴', '😇',
+  '👉', '👎', '🤏', '👌', '🖕', '✌️'
+]);
 
 function createEmptyBoard() {
   return Array.from({ length: 15 }, () => Array(15).fill(0));
@@ -359,6 +364,24 @@ io.on('connection', (socket) => {
       room.turn = playerColor === 1 ? 2 : 1;
     }
     io.to(roomId).emit('gameState', room);
+  });
+
+  // --- 五子棋表情互动：只转发给同房间的另一位玩家 ---
+  socket.on('reaction', (emoji) => {
+    const roomId = socket.data.roomId;
+    if (!roomId || !rooms.has(roomId) || !ALLOWED_REACTIONS.has(emoji)) return;
+
+    const room = rooms.get(roomId);
+    const isPlayer = room.blackId === socket.id || room.whiteId === socket.id;
+    if (!isPlayer || !room.blackId || !room.whiteId) return;
+
+    // 服务端限频，避免连续刷屏
+    const now = Date.now();
+    if (socket.data.lastReactionAt && now - socket.data.lastReactionAt < 700) return;
+    socket.data.lastReactionAt = now;
+
+    const senderColor = room.blackId === socket.id ? 1 : 2;
+    socket.to(roomId).emit('reaction', { emoji, senderColor });
   });
 
   socket.on('restart', () => {
